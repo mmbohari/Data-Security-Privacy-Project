@@ -2,6 +2,7 @@ package dsp.db.gui.frame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,12 +13,16 @@ import dsp.db.setup.DBPasswordManager;
 public class MainFrameHandler extends ComponentHandler {
 	
 	private MainFrame mainFrame;
+	private Connection connection;
 	
-	public MainFrameHandler(MainFrame mainFrame) {
+	public MainFrameHandler(
+			MainFrame mainFrame,
+			Connection connection) {
 		
 		super(mainFrame);
 		
 		this.mainFrame = mainFrame;
+		this.connection = connection;
 		
 		initializeGUI();
 	}
@@ -35,13 +40,12 @@ public class MainFrameHandler extends ComponentHandler {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					ResultSet rs = new DBConnection().getConnection(
-							new DBPasswordManager().getPassword())
-					.prepareStatement("show tables")
-					.executeQuery();
+					ResultSet rs = connection
+						.prepareStatement("show tables")
+						.executeQuery();
 					
 					ResultsDialog rd = new ResultsDialog();
-					ResultsDialogHandler rdh = new ResultsDialogHandler(rd,rs);
+					new ResultsDialogHandler(rd,rs);
 					rd.setVisible(true);
 					
 				} catch (SQLException e) {
