@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreparedStatementGenerator {
+import dsp.util.StringUtils;
+
+public class PreparedSelectStatementGenerator
+		implements PreparedStatementGenerator {
 	
 	private enum Keyword {
 		INIT,
@@ -25,7 +28,7 @@ public class PreparedStatementGenerator {
 	
 	private List<String> queryFragments;
 	
-	public PreparedStatementGenerator(Connection connection) {
+	public PreparedSelectStatementGenerator(Connection connection) {
 		this.connection = connection;
 		this.preparedString = "";
 		
@@ -34,6 +37,7 @@ public class PreparedStatementGenerator {
 		this.queryFragments = new ArrayList<String>();
 	}
 	
+	@Override
 	public ResultSet executeQuery() throws SQLException {
 		stmt = connection.prepareStatement(preparedString);
 		int index = 1;
@@ -44,32 +48,36 @@ public class PreparedStatementGenerator {
 		return stmt.executeQuery();
 	}
 	
-	public PreparedStatementGenerator select(String... select) throws DisorderlyQueryException {
+	public PreparedSelectStatementGenerator select(String... select) throws DisorderlyQueryException {
+		if(select != null && select.length == 1 && "*".equals(select[0])) {
+			return selectAll();
+		}
+		
 		checkSetPrev(Keyword.SELECT);
 		prev = Keyword.SELECT;
-		preparedString += "SELECT " + commaSeparated(select);
+		preparedString += "SELECT " + StringUtils.commaSeparated(select);
 		return this;
 	}
 
-	public PreparedStatementGenerator selectAll() throws DisorderlyQueryException {
+	public PreparedSelectStatementGenerator selectAll() throws DisorderlyQueryException {
 		checkSetPrev(Keyword.SELECT);
 		prev = Keyword.SELECT;
 		preparedString += "SELECT *";
 		return this;
 	}
 	
-	public PreparedStatementGenerator distinct() throws DisorderlyQueryException {
+	public PreparedSelectStatementGenerator distinct() throws DisorderlyQueryException {
 		checkSetPrev(Keyword.DISTINCT);
 		return this;
 	}
 	
-	public PreparedStatementGenerator from(String from) throws DisorderlyQueryException {
+	public PreparedSelectStatementGenerator from(String from) throws DisorderlyQueryException {
 		checkSetPrev(Keyword.FROM);
 		preparedString += "FROM " + from;
 		return this;
 	}
 	
-	public PreparedStatementGenerator where(String where) throws DisorderlyQueryException {
+	public PreparedSelectStatementGenerator where(String where) throws DisorderlyQueryException {
 		checkSetPrev(Keyword.WHERE);
 		preparedString += "WHERE ? ";
 		queryFragments.add(where);
@@ -86,16 +94,5 @@ public class PreparedStatementGenerator {
 			}
 			prev = curr;
 		}
-	}
-	
-	private String commaSeparated(String[] strings) {
-	    StringBuilder sb = new StringBuilder();
-	    String sep = "";
-	    for (String string: strings) {
-	        sb.append(sep);
-	        sb.append(string);
-	        sep = ",";
-	    }
-	    return sb.toString();
 	}
 }

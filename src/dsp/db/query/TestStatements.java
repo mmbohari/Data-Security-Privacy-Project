@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import dsp.db.setup.DBConnection;
 import dsp.db.setup.DBPasswordManager;
 
-public class TestStatement {
+public class TestStatements {
 	public static void main(String[] args) {
 		try {
 			ResultSet rs = new DBConnection().getConnection(
@@ -16,15 +16,22 @@ public class TestStatement {
 			
 			printAll(rs);
 			
-			rs = new PreparedStatementGenerator(
+			rs = new PreparedSelectStatementGenerator(
 					new DBConnection().getConnection(
 							new DBPasswordManager().getPassword()))
 				.selectAll()
-				.from("INFORMATION_SCHEMA.COLUMNS")
-				.where("TABLE_NAME='Doctor'")
+				.from("Doctor")
 				.executeQuery();
 			
 			printAll(rs);
+			
+			rs = new PreparedInsertStatementGenerator(
+					new DBConnection().getConnection(
+							new DBPasswordManager().getPassword()))
+				.insertInto("Doctor")
+				.values("Mr. Williams", "This", "That")
+				.executeQuery();
+		
 		} catch (SQLException | DisorderlyQueryException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,7 +47,7 @@ public class TestStatement {
 		           System.out.print(columnValue + " " +
 		        		   rs.getMetaData().getColumnName(i));
 		       }
-		       System.out.println("");
+		       System.out.println();
 		   }
 		
 	}
