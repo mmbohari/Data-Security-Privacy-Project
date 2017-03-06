@@ -10,7 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 
 public class ResultsDialog extends JDialog {
-
+	private static final long serialVersionUID = 725393573617079589L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JTable resultTable;
 

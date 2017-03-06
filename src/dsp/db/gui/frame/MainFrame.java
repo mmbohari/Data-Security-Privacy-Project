@@ -2,15 +2,16 @@ package dsp.db.gui.frame;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.FlowLayout;
 
 public class MainFrame extends JFrame {
-
+	private static final long serialVersionUID = 4555982033551373931L;
+	
 	private JPanel contentPane;
 	private JButton showTablesButton;
 

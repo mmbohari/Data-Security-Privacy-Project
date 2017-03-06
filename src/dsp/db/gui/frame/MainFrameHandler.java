@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dsp.db.gui.ComponentHandler;
-import dsp.db.setup.DBConnection;
-import dsp.db.setup.DBPasswordManager;
 
 public class MainFrameHandler extends ComponentHandler {
 	
