@@ -18,6 +18,8 @@ public class GUILauncher {
 	}
 	
 	private static void launch(Connection connection) {
+		LookAndFeelController.initLookAndFeel();
+		
         MainFrame mainFrame = new MainFrame();
         new MainFrameHandler(mainFrame, connection);
         mainFrame.setVisible(true);
