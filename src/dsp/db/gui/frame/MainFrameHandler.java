@@ -52,5 +52,15 @@ public class MainFrameHandler extends ComponentHandler {
 				}
 			}
 		});
+		
+		mainFrame.getSelectButton().addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				SelectDialog sd = new SelectDialog();
+				new SelectDialogHandler(sd, connection);
+				sd.setVisible(true);
+			}
+		});
 	}
 }

@@ -14,6 +14,7 @@ public class MainFrame extends JFrame {
 	
 	private JPanel contentPane;
 	private JButton showTablesButton;
+	private JButton selectButton;
 
 	/**
 	 * Launch the application.
@@ -48,11 +49,17 @@ public class MainFrame extends JFrame {
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		contentPane.add(buttonPanel, BorderLayout.SOUTH);
 		
+		selectButton = new JButton("Select...");
+		buttonPanel.add(selectButton);
+		
 		showTablesButton = new JButton("Show Tables");
 		buttonPanel.add(showTablesButton);
 	}
 
 	public JButton getShowTablesButton() {
 		return showTablesButton;
+	}
+	public JButton getSelectButton() {
+		return selectButton;
 	}
 }
