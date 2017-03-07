@@ -1,9 +1,15 @@
 package dsp.db.gui.frame;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import dsp.db.gui.ComponentHandler;
 import dsp.db.gui.actions.CancelDialogAction;
+import dsp.db.query.DisorderlyQueryException;
+import dsp.db.query.PreparedSelectStatementGenerator;
 
 public class SelectDialogHandler extends ComponentHandler {
 	
@@ -32,6 +38,27 @@ public class SelectDialogHandler extends ComponentHandler {
 		selectDialog.getCancelButton().setAction(
 				new CancelDialogAction(
 						selectDialog));
+		selectDialog.getOkButton().addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					ResultSet rs = new PreparedSelectStatementGenerator(connection)
+						.select(selectDialog.getSelectTextField().getText())
+						.from(selectDialog.getFromTextField().getText())
+						.where(selectDialog.getWhereTextField().getText())
+						.executeQuery();
+					
+					ResultsDialog rd = new ResultsDialog();
+					new ResultsDialogHandler(rd,rs);
+					rd.setVisible(true);
+					
+				} catch (SQLException | DisorderlyQueryException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		});
 	}
 
 }
