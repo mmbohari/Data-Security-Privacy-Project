@@ -2,25 +2,25 @@ package dsp.db.gui.frame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dsp.db.gui.ComponentHandler;
+import dsp.db.setup.ConnectionController;
 
 public class MainFrameHandler extends ComponentHandler {
 	
 	private MainFrame mainFrame;
-	private Connection connection;
+	private ConnectionController connectionController;
 	
 	public MainFrameHandler(
 			MainFrame mainFrame,
-			Connection connection) {
+			ConnectionController connectionController) {
 		
 		super(mainFrame);
 		
 		this.mainFrame = mainFrame;
-		this.connection = connection;
+		this.connectionController = connectionController;
 		
 		initializeGUI();
 	}
@@ -38,9 +38,8 @@ public class MainFrameHandler extends ComponentHandler {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					ResultSet rs = connection
-						.prepareStatement("show tables")
-						.executeQuery();
+					ResultSet rs = connectionController
+						.executeQuery("show tables");
 					
 					ResultsDialog rd = new ResultsDialog();
 					new ResultsDialogHandler(rd,rs);
@@ -58,7 +57,7 @@ public class MainFrameHandler extends ComponentHandler {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SelectDialog sd = new SelectDialog();
-				new SelectDialogHandler(sd, connection);
+				new SelectDialogHandler(sd, connectionController);
 				sd.setVisible(true);
 			}
 		});

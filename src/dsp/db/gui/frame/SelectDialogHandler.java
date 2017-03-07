@@ -2,7 +2,6 @@ package dsp.db.gui.frame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -10,19 +9,20 @@ import dsp.db.gui.ComponentHandler;
 import dsp.db.gui.actions.CancelDialogAction;
 import dsp.db.query.DisorderlyQueryException;
 import dsp.db.query.PreparedSelectStatementGenerator;
+import dsp.db.setup.ConnectionController;
 
 public class SelectDialogHandler extends ComponentHandler {
 	
 	private SelectDialog selectDialog;
-	private Connection connection;
+	private ConnectionController connectionController;
 
 	public SelectDialogHandler(
 			SelectDialog selectDialog,
-			Connection connection) {
+			ConnectionController connectionController) {
 		super(selectDialog);
 		
 		this.selectDialog = selectDialog;
-		this.connection = connection;
+		this.connectionController = connectionController;
 		
 		initializeGUI();
 	}
@@ -43,7 +43,8 @@ public class SelectDialogHandler extends ComponentHandler {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					ResultSet rs = new PreparedSelectStatementGenerator(connection)
+					ResultSet rs = new PreparedSelectStatementGenerator(
+							connectionController)
 						.select(selectDialog.getSelectTextField().getText())
 						.from(selectDialog.getFromTextField().getText())
 						.where(selectDialog.getWhereTextField().getText())

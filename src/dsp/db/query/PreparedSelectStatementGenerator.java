@@ -1,12 +1,11 @@
 package dsp.db.query;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dsp.db.setup.ConnectionController;
 import dsp.util.StringUtils;
 
 public class PreparedSelectStatementGenerator
@@ -20,16 +19,15 @@ public class PreparedSelectStatementGenerator
 		WHERE
 	};
 	
-	private PreparedStatement stmt;
-	private Connection connection;
+	private ConnectionController connectionController;
 	private String preparedString;
 	
 	private Keyword prev;
 	
 	private List<String> queryFragments;
 	
-	public PreparedSelectStatementGenerator(Connection connection) {
-		this.connection = connection;
+	public PreparedSelectStatementGenerator(ConnectionController connectionController) {
+		this.connectionController = connectionController;
 		this.preparedString = "";
 		
 		prev = Keyword.INIT;
@@ -39,13 +37,7 @@ public class PreparedSelectStatementGenerator
 	
 	@Override
 	public ResultSet executeQuery() throws SQLException {
-		stmt = connection.prepareStatement(preparedString);
-		int index = 1;
-		for(String query : queryFragments) {
-			stmt.setString(index++, query);
-		}
-		System.out.println(stmt);
-		return stmt.executeQuery();
+		return connectionController.executeQuery(preparedString, queryFragments);
 	}
 	
 	public PreparedSelectStatementGenerator select(String... select) throws DisorderlyQueryException {

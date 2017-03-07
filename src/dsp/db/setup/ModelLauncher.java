@@ -1,17 +1,15 @@
 package dsp.db.setup;
 
-import java.sql.Connection;
-
 public class ModelLauncher {
 	private static boolean hasLaunched = false;
 
 	private static ModelLauncher modelLauncher;
 
-	private Connection connection;
+	private ConnectionController connectionController;
 	
 	public ModelLauncher() {
-		connection = new DBConnection().getConnection(
-				new DBPasswordManager().getPassword());
+		connectionController = new ConnectionController();
+		connectionController.connect(new DBPasswordManager().getPassword());
 	}
 	
 	public synchronized static ModelLauncher getInstance() {
@@ -24,7 +22,7 @@ public class ModelLauncher {
 		return modelLauncher;
 	}
 	
-	public Connection getConnection() {
-		return connection;
+	public ConnectionController getConnectionController() {
+		return connectionController;
 	}
 }

@@ -1,7 +1,5 @@
 package dsp.db.setup;
 
-import java.sql.Connection;
-
 import dsp.db.gui.frame.MainFrame;
 import dsp.db.gui.frame.MainFrameHandler;
 
@@ -9,19 +7,19 @@ public class GUILauncher {
 	
 	private GUILauncher(){}
 	
-	public static void launchOnEDT(Connection connection) {
+	public static void launchOnEDT(ConnectionController connectionController) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	launch(connection);
+            	launch(connectionController);
             }
         });
 	}
 	
-	private static void launch(Connection connection) {
+	private static void launch(ConnectionController connectionController) {
 		LookAndFeelController.initLookAndFeel();
 		
         MainFrame mainFrame = new MainFrame();
-        new MainFrameHandler(mainFrame, connection);
+        new MainFrameHandler(mainFrame, connectionController);
         mainFrame.setVisible(true);
 	}
 }
