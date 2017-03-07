@@ -78,6 +78,9 @@ public class PreparedSelectStatementGenerator
 	}
 	
 	public PreparedSelectStatementGenerator where(String where) throws DisorderlyQueryException {
+		if(where.isEmpty()) {
+			return this;
+		}
 		checkSetPrev(Keyword.WHERE);
 		preparedString += "WHERE ? ";
 		queryFragments.add(where);
