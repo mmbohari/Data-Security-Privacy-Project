@@ -2,13 +2,13 @@ package dsp.db.gui.frame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dsp.db.gui.ComponentHandler;
 import dsp.db.gui.actions.CancelDialogAction;
 import dsp.db.query.DisorderlyQueryException;
 import dsp.db.query.PreparedSelectStatementGenerator;
+import dsp.db.query.ResultSetController;
 import dsp.db.setup.ConnectionController;
 
 public class SelectDialogHandler extends ComponentHandler {
@@ -43,7 +43,7 @@ public class SelectDialogHandler extends ComponentHandler {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					ResultSet rs = new PreparedSelectStatementGenerator(
+					ResultSetController rsc = new PreparedSelectStatementGenerator(
 							connectionController)
 						.select(selectDialog.getSelectTextField().getText())
 						.from(selectDialog.getFromTextField().getText())
@@ -51,7 +51,7 @@ public class SelectDialogHandler extends ComponentHandler {
 						.executeQuery();
 					
 					ResultsDialog rd = new ResultsDialog();
-					new ResultsDialogHandler(rd,rs);
+					new ResultsDialogHandler(rd,rsc);
 					rd.setVisible(true);
 					
 				} catch (SQLException | DisorderlyQueryException e) {

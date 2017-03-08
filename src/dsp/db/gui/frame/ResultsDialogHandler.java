@@ -1,6 +1,5 @@
 package dsp.db.gui.frame;
 
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -9,47 +8,61 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import dsp.db.gui.ComponentHandler;
+import dsp.db.gui.actions.CancelDialogAction;
+import dsp.db.gui.actions.OkDialogAction;
+import dsp.db.query.ResultSetController;
 
 public class ResultsDialogHandler extends ComponentHandler {
 	
 	private ResultsDialog resultsDialog;
-	private ResultSet resultSet;
+	private ResultSetController rsc;
 
 	protected ResultsDialogHandler(
 			ResultsDialog resultsDialog,
-			ResultSet resultSet) {
+			ResultSetController rsc) {
 		super(resultsDialog);
 		
 		this.resultsDialog = resultsDialog;
-		this.resultSet = resultSet;
+		this.rsc = rsc;
 		
 		initializeGUI();
 	}
 
 	@Override
 	protected void setup() {
+		resultsDialog.getCancelButton().setAction(
+				new CancelDialogAction(
+						resultsDialog));
+
+		resultsDialog.getOkButton().setAction(
+				new OkDialogAction(
+						resultsDialog));
 		try {
-			ResultSetMetaData rsmd = resultSet.getMetaData();
-			
-			Vector<String> columnNames = new Vector<String>();
-			for (int i = 1; i <= rsmd.getColumnCount(); ++i) {
-				columnNames.add(rsmd.getColumnName(i));
+			if(rsc.hasResults()) {
+
+				ResultSetMetaData rsmd = rsc.getResultSet().getMetaData();
+				
+				Vector<String> columnNames = new Vector<String>();
+				for (int i = 1; i <= rsmd.getColumnCount(); ++i) {
+					columnNames.add(rsmd.getColumnName(i));
+				}
+		
+		
+			    // data of the table
+			    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+			    while (rsc.getResultSet().next()) {
+			        Vector<Object> vector = new Vector<Object>();
+			        for (int columnIndex = 1; columnIndex <= rsmd.getColumnCount(); columnIndex++) {
+			            vector.add(rsc.getResultSet().getObject(columnIndex));
+			        }
+			        data.add(vector);
+			    }
+				
+				TableModel tm = new DefaultTableModel(data, columnNames);
+				resultsDialog.getResultTable().setModel(tm);
 			}
-	
-	
-		    // data of the table
-		    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		    while (resultSet.next()) {
-		        Vector<Object> vector = new Vector<Object>();
-		        for (int columnIndex = 1; columnIndex <= rsmd.getColumnCount(); columnIndex++) {
-		            vector.add(resultSet.getObject(columnIndex));
-		        }
-		        data.add(vector);
-		    }
-			
-			TableModel tm = new DefaultTableModel(data, columnNames);
-			resultsDialog.getResultTable().setModel(tm);
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

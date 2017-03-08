@@ -3,11 +3,10 @@ package dsp.db.setup;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import dsp.db.query.BlankResultSet;
+import dsp.db.query.ResultSetController;
 
 public class ConnectionController {
 	
@@ -52,16 +51,17 @@ public class ConnectionController {
 	    }
 	}
 
-	public ResultSet executeQuery(String sql) throws SQLException {
+	public ResultSetController executeQuery(String sql) throws SQLException {
 		if(isConnected) {
-			return connection.prepareStatement(sql).executeQuery();
+			return new ResultSetController(
+					connection.prepareStatement(sql).executeQuery());
 		}
 		else {
-			return new BlankResultSet();
+			return new ResultSetController();
 		}
 	}
 
-	public ResultSet executeQuery(
+	public ResultSetController executeQuery(
 			String sql, List<String> queryFragments) throws SQLException {
 		if(isConnected) {
 			PreparedStatement stmt = connection.prepareStatement(sql);
@@ -69,10 +69,10 @@ public class ConnectionController {
 			for(String query : queryFragments) {
 				stmt.setString(index++, query);
 			}
-			return stmt.executeQuery();
+			return new ResultSetController(stmt.executeQuery());
 		}
 		else {
-			return new BlankResultSet();
+			return new ResultSetController();
 		}
 	}
 }

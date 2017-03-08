@@ -14,6 +14,8 @@ public class ResultsDialog extends JDialog {
 	
 	private final JPanel contentPanel = new JPanel();
 	private JTable resultTable;
+	private JButton okButton;
+	private JButton cancelButton;
 
 	/**
 	 * Launch the application.
@@ -42,13 +44,13 @@ public class ResultsDialog extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -61,5 +63,11 @@ public class ResultsDialog extends JDialog {
 
 	public JTable getResultTable() {
 		return resultTable;
+	}
+	public JButton getOkButton() {
+		return okButton;
+	}
+	public JButton getCancelButton() {
+		return cancelButton;
 	}
 }

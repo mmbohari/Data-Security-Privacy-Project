@@ -2,10 +2,10 @@ package dsp.db.gui.frame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dsp.db.gui.ComponentHandler;
+import dsp.db.query.ResultSetController;
 import dsp.db.setup.ConnectionController;
 
 public class MainFrameHandler extends ComponentHandler {
@@ -38,11 +38,11 @@ public class MainFrameHandler extends ComponentHandler {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					ResultSet rs = connectionController
+					ResultSetController rsc = connectionController
 						.executeQuery("show tables");
 					
 					ResultsDialog rd = new ResultsDialog();
-					new ResultsDialogHandler(rd,rs);
+					new ResultsDialogHandler(rd,rsc);
 					rd.setVisible(true);
 					
 				} catch (SQLException e) {

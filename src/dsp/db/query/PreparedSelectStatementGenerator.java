@@ -1,6 +1,5 @@
 package dsp.db.query;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class PreparedSelectStatementGenerator
 	}
 	
 	@Override
-	public ResultSet executeQuery() throws SQLException {
+	public ResultSetController executeQuery() throws SQLException {
 		return connectionController.executeQuery(preparedString, queryFragments);
 	}
 	
