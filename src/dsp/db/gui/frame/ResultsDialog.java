@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 
@@ -57,7 +58,8 @@ public class ResultsDialog extends JDialog {
 		}
 		{
 			resultTable = new JTable();
-			getContentPane().add(resultTable, BorderLayout.CENTER);
+			JScrollPane resultTableScrollPane = new JScrollPane(resultTable);
+			getContentPane().add(resultTableScrollPane, BorderLayout.CENTER);
 		}
 	}
 
