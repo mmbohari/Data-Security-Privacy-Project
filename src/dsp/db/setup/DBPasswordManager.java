@@ -19,6 +19,15 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * The {@link DBPasswordManager} grabs an encrypted password from a
+ * file and returns it. There is also an option to encrypt a password
+ * in the case that the database's password is ever going to change.
+ * 
+ * TODO Write a password manager gui/program, and comment this class.
+ * 
+ * @author Ryan Conrad
+ */
 public class DBPasswordManager {
 
 	public static final String PASSWORD_LOCATION = "resources/password.txt";
