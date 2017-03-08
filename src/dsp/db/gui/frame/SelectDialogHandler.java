@@ -29,15 +29,13 @@ public class SelectDialogHandler extends ComponentHandler {
 
 	@Override
 	protected void setup() {
-		// TODO Auto-generated method stub
-		
+		selectDialog.getCancelButton().setAction(
+				new CancelDialogAction(
+						selectDialog));
 	}
 
 	@Override
 	protected void initializeListeners() {
-		selectDialog.getCancelButton().setAction(
-				new CancelDialogAction(
-						selectDialog));
 		selectDialog.getOkButton().addActionListener(new ActionListener(){
 
 			@Override
