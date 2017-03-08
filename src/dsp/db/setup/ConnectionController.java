@@ -10,6 +10,9 @@ import dsp.db.query.ResultSetController;
 
 public class ConnectionController {
 	
+	private static final String ZERO_DATE_HANDLER =
+			"?zeroDateTimeBehavior=convertToNull";
+	
 	Connection connection;
 	boolean isConnected;
 	
@@ -38,7 +41,8 @@ public class ConnectionController {
 
 	    try {
 	        connection = DriverManager.
-	                getConnection("jdbc:mysql://" + URL + ":" + PORT + "/" + DATABASE, REMOTE_DATABASE_USERNAME, DATABASE_USER_PASSWORD);
+	                getConnection("jdbc:mysql://" + URL + ":" + PORT + "/" + DATABASE
+	        				+ ZERO_DATE_HANDLER, REMOTE_DATABASE_USERNAME, DATABASE_USER_PASSWORD);
 	    } catch (SQLException e) {
 	        System.out.println("Connection Failed!:\n" + e.getMessage());
 	    }
@@ -69,6 +73,7 @@ public class ConnectionController {
 			for(String query : queryFragments) {
 				stmt.setString(index++, query);
 			}
+			System.out.println(stmt);
 			return new ResultSetController(stmt.executeQuery());
 		}
 		else {
