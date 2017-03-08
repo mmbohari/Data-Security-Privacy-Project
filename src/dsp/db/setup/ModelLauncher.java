@@ -26,7 +26,7 @@ public class ModelLauncher {
 	/**
 	 * Creates a new {@link ModelLauncher}.
 	 */
-	public ModelLauncher() {
+	private ModelLauncher() {
 		
 		// Create the controller and connect automatically
 		connectionController = new ConnectionController();
