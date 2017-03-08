@@ -19,12 +19,14 @@ public class SelectDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField selectTextField;
 	private JTextField fromTextField;
-	private JTextField whereTextField;
+	private JTextField whereAttributeTextField;
 	private JLabel selectLabel;
 	private JLabel fromLabel;
 	private JLabel whereLabel;
 	private JButton okButton;
 	private JButton cancelButton;
+	private JLabel whereEqualsLabel;
+	private JTextField whereValueTextField;
 
 	/**
 	 * Launch the application.
@@ -53,8 +55,8 @@ public class SelectDialog extends JDialog {
 			contentPanel.add(selectGridPanel);
 			GridBagLayout gbl_selectGridPanel = new GridBagLayout();
 			gbl_selectGridPanel.columnWidths = new int[] {0};
-			gbl_selectGridPanel.rowHeights = new int[] {0, 0, 0};
-			gbl_selectGridPanel.columnWeights = new double[]{1.0, 1.0};
+			gbl_selectGridPanel.rowHeights = new int[] {0};
+			gbl_selectGridPanel.columnWeights = new double[]{1.0, 1.0, 0.0, 1.0};
 			gbl_selectGridPanel.rowWeights = new double[]{0.0, 0.0, 0.0};
 			selectGridPanel.setLayout(gbl_selectGridPanel);
 			{
@@ -69,6 +71,7 @@ public class SelectDialog extends JDialog {
 			{
 				selectTextField = new JTextField();
 				GridBagConstraints gbc_selectTextField = new GridBagConstraints();
+				gbc_selectTextField.gridwidth = 3;
 				gbc_selectTextField.insets = new Insets(0, 0, 5, 0);
 				gbc_selectTextField.fill = GridBagConstraints.HORIZONTAL;
 				gbc_selectTextField.gridx = 1;
@@ -88,6 +91,7 @@ public class SelectDialog extends JDialog {
 			{
 				fromTextField = new JTextField();
 				GridBagConstraints gbc_fromTextField = new GridBagConstraints();
+				gbc_fromTextField.gridwidth = 3;
 				gbc_fromTextField.insets = new Insets(0, 0, 5, 0);
 				gbc_fromTextField.fill = GridBagConstraints.HORIZONTAL;
 				gbc_fromTextField.gridx = 1;
@@ -105,13 +109,31 @@ public class SelectDialog extends JDialog {
 				selectGridPanel.add(whereLabel, gbc_whereLabel);
 			}
 			{
-				whereTextField = new JTextField();
-				GridBagConstraints gbc_whereTextField = new GridBagConstraints();
-				gbc_whereTextField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_whereTextField.gridx = 1;
-				gbc_whereTextField.gridy = 2;
-				selectGridPanel.add(whereTextField, gbc_whereTextField);
-				whereTextField.setColumns(10);
+				whereAttributeTextField = new JTextField();
+				GridBagConstraints gbc_whereAttributeTextField = new GridBagConstraints();
+				gbc_whereAttributeTextField.insets = new Insets(0, 0, 0, 5);
+				gbc_whereAttributeTextField.fill = GridBagConstraints.HORIZONTAL;
+				gbc_whereAttributeTextField.gridx = 1;
+				gbc_whereAttributeTextField.gridy = 2;
+				selectGridPanel.add(whereAttributeTextField, gbc_whereAttributeTextField);
+				whereAttributeTextField.setColumns(10);
+			}
+			{
+				whereEqualsLabel = new JLabel("=");
+				GridBagConstraints gbc_whereEqualsLabel = new GridBagConstraints();
+				gbc_whereEqualsLabel.insets = new Insets(0, 0, 0, 5);
+				gbc_whereEqualsLabel.gridx = 2;
+				gbc_whereEqualsLabel.gridy = 2;
+				selectGridPanel.add(whereEqualsLabel, gbc_whereEqualsLabel);
+			}
+			{
+				whereValueTextField = new JTextField();
+				GridBagConstraints gbc_whereValueTextField = new GridBagConstraints();
+				gbc_whereValueTextField.fill = GridBagConstraints.HORIZONTAL;
+				gbc_whereValueTextField.gridx = 3;
+				gbc_whereValueTextField.gridy = 2;
+				selectGridPanel.add(whereValueTextField, gbc_whereValueTextField);
+				whereValueTextField.setColumns(10);
 			}
 		}
 		{
@@ -147,8 +169,11 @@ public class SelectDialog extends JDialog {
 	public JLabel getWhereLabel() {
 		return whereLabel;
 	}
-	public JTextField getWhereTextField() {
-		return whereTextField;
+	public JTextField getWhereAttributeTextField() {
+		return whereAttributeTextField;
+	}
+	public JTextField getWhereValueTextField() {
+		return whereValueTextField;
 	}
 	public JButton getOkButton() {
 		return okButton;

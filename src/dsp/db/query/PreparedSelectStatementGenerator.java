@@ -68,13 +68,14 @@ public class PreparedSelectStatementGenerator
 		return this;
 	}
 	
-	public PreparedSelectStatementGenerator where(String where) throws DisorderlyQueryException {
-		if(where == null || where.isEmpty()) {
+	public PreparedSelectStatementGenerator where(String attribute, String value) throws DisorderlyQueryException {
+		if(attribute == null || attribute.isEmpty()
+				|| value == null || value.isEmpty()) {
 			return this;
 		}
 		checkSetPrev(Keyword.WHERE);
-		preparedString += "WHERE ? ";
-		queryFragments.add(where);
+		preparedString += "WHERE " + attribute + " = ?";
+		queryFragments.add(value);
 		return this;
 	}
 	

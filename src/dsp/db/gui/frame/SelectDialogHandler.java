@@ -47,7 +47,8 @@ public class SelectDialogHandler extends ComponentHandler {
 							connectionController)
 						.select(selectDialog.getSelectTextField().getText())
 						.from(selectDialog.getFromTextField().getText())
-						.where(selectDialog.getWhereTextField().getText())
+						.where(selectDialog.getWhereAttributeTextField().getText(),
+								selectDialog.getWhereValueTextField().getText())
 						.executeQuery();
 					
 					ResultsDialog rd = new ResultsDialog();
