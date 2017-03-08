@@ -8,75 +8,151 @@ import java.util.List;
 
 import dsp.db.query.ResultSetController;
 
+/**
+ * A {@link ConnectionController} manages a {@link Connection} to
+ * a sql server.
+ * 
+ * @author Ryan Conrad
+ */
 public class ConnectionController {
 	
+	/**
+	 * String to append to the database URL that specifies behavior
+	 * in the case that a zero date time is returned.
+	 * 
+	 * If this isn't desired, change the string to "".
+	 */
 	private static final String ZERO_DATE_HANDLER =
 			"?zeroDateTimeBehavior=convertToNull";
 	
+	/**
+	 * The URL of the database.
+	 */
+	public static final String URL =
+			"dsap-project.c7nndjr2fzxb.us-east-1.rds.amazonaws.com";
+	
+	/**
+	 * The port number to use for the database.
+	 */
+	public static final int PORT = 3306;
+	
+	/**
+	 * The name of the database.
+	 */
+	public static final String DATABASE_NAME = "Healthcare";
+	
+	/**
+	 * The username of the database on the remote.
+	 */
+	public static final String REMOTE_DATABASE_USERNAME = "dsap_group3";
+	
+	/**
+	 * The connection.
+	 */
 	Connection connection;
+	
+	/**
+	 * If false, the connection wasn't established (it's null).
+	 * 
+	 * Otherwise, the connection was successful.
+	 */
 	boolean isConnected;
 	
+	/**
+	 * Creates a new {@link ConnectionController}.
+	 */
 	public ConnectionController() {
 		connection = null;
 		isConnected = false;
 	}
 	
+	/**
+	 * Attempts to connect to the database with the given password.
+	 * 
+	 * @param password The database's password
+	 */
 	public void connect(String password) {
-		String URL = "dsap-project.c7nndjr2fzxb.us-east-1.rds.amazonaws.com";
-		String PORT = "3306";
-		String DATABASE = "Healthcare";
-		String REMOTE_DATABASE_USERNAME = "dsap_group3";
-		String DATABASE_USER_PASSWORD = password;
-
-	    System.out.println("----MySQL JDBC Connection Testing -------");
-	    
+		
+	    // Attempt to instantiate the driver
 	    try {
 	        Class.forName("com.mysql.jdbc.Driver");
 	    } catch (ClassNotFoundException e) {
-	        System.out.println("Where is your MySQL JDBC Driver?");
+	        System.err.println("Where is your MySQL JDBC Driver?");
 	        e.printStackTrace();
 	    }
-
-	    System.out.println("MySQL JDBC Driver Registered!");
-
+	    
+	    // Establish the connection
 	    try {
 	        connection = DriverManager.
-	                getConnection("jdbc:mysql://" + URL + ":" + PORT + "/" + DATABASE
-	        				+ ZERO_DATE_HANDLER, REMOTE_DATABASE_USERNAME, DATABASE_USER_PASSWORD);
+	                getConnection("jdbc:mysql://" + URL + ":" + PORT + "/"
+	                		+ DATABASE_NAME + ZERO_DATE_HANDLER,
+	                		REMOTE_DATABASE_USERNAME, password);
 	    } catch (SQLException e) {
-	        System.out.println("Connection Failed!:\n" + e.getMessage());
+	        System.err.println("Connection Failed!:\n" + e.getMessage());
 	    }
 
+	    // If the connection was established successfully
 	    if (connection != null) {
-	        System.out.println("SUCCESS!!!! You made it, take control     your database now!");
+	    	
+	    	// Reflect it in the boolean
 	        isConnected = true;
-	    } else {
-	        System.out.println("FAILURE! Failed to make connection!");
 	    }
 	}
-
+	
+	/**
+	 * Attempts to execute a query on the server and returns the results
+	 * in a {@link ResultSetController}.
+	 * 
+	 * @param sql The query
+	 * @return The results
+	 * @throws SQLException
+	 */
 	public ResultSetController executeQuery(String sql) throws SQLException {
+		
+		// If the server is connected
 		if(isConnected) {
+			
+			// Return the results of the executed query
 			return new ResultSetController(
 					connection.prepareStatement(sql).executeQuery());
 		}
 		else {
+			
+			// With no connection, return an empty result set
 			return new ResultSetController();
 		}
 	}
 
+	/**
+	 * Attempts to execute a parameterized query on the server and
+	 * returns the results in a {@link ResultSetController}.
+	 * 
+	 * @param sql The parameterized query
+	 * @param queryFragments The parameters to fill
+	 * @return The results
+	 * @throws SQLException
+	 */
 	public ResultSetController executeQuery(
 			String sql, List<String> queryFragments) throws SQLException {
+		
+		// If the server is connected
 		if(isConnected) {
+			
+			// Prepare the statement
 			PreparedStatement stmt = connection.prepareStatement(sql);
+			
+			// Set the parameters
 			int index = 1;
 			for(String query : queryFragments) {
 				stmt.setString(index++, query);
 			}
-			System.out.println(stmt);
+			
+			// Return the results of the executed query
 			return new ResultSetController(stmt.executeQuery());
 		}
 		else {
+			
+			// With no connection, return an empty result set
 			return new ResultSetController();
 		}
 	}
