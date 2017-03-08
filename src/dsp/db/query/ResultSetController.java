@@ -12,10 +12,14 @@ public class ResultSetController {
 	}
 	
 	public ResultSetController() {
+		this.resultSet = null;
 		this.hasResults = false;
 	}
 	
 	public ResultSet getResultSet() {
+		if(!hasResults) {
+			System.err.println("WARNING: No results were set or obtained.");
+		}
 		return resultSet;
 	}
 	
