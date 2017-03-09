@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import dsp.db.query.ResultSetController;
 
 /**
@@ -89,6 +91,10 @@ public class ConnectionController {
 	                		REMOTE_DATABASE_USERNAME, password);
 	    } catch (SQLException e) {
 	        System.err.println("Connection Failed!:\n" + e.getMessage());
+	        JOptionPane.showMessageDialog(null,
+	        		"Connection Failed!:\n" + e.getMessage(),
+	        		"Error!",
+	        		JOptionPane.ERROR_MESSAGE);
 	    }
 
 	    // If the connection was established successfully
