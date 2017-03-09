@@ -24,39 +24,56 @@ import javax.crypto.spec.SecretKeySpec;
  * file and returns it. There is also an option to encrypt a password
  * in the case that the database's password is ever going to change.
  * 
+ * The main point of this is so that the plain-text password isn't
+ * kept in the Java class files or any other text file.
+ * 
  * TODO Write a password manager gui/program, and comment this class.
+ * 
+ * TODO Eliminate null returns by throwing exceptions instead of handling
  * 
  * @author Ryan Conrad
  */
 public class DBPasswordManager {
 
-	public static final String PASSWORD_LOCATION = "resources/password.txt";
-	public static final String ENC_METHOD = "AES";
-	public static final int KEY_LENGTH = 128;
-	public static final String MODE = "CBC";
-	public static final String PADDING = "PKCS5Padding";
-	public static final String TRANSFORMATION =
+	private static final String PASSWORD_LOCATION = "resources/password.txt";
+	private static final String KEY_LOC = "resources/key.txt";
+	private static final String IV_LOC = "resources/iv.txt";
+	private static final String ENC_METHOD = "AES";
+	private static final int KEY_LENGTH = 128;
+	private static final String MODE = "CBC";
+	private static final String PADDING = "PKCS5Padding";
+	private static final String TRANSFORMATION =
 			ENC_METHOD + "/" +
 			MODE + "/" +
 			PADDING;
 	
-	private static final String KEY_LOC = "resources/key.txt";
-	private static final String IV_LOC = "resources/iv.txt";
-	
+	/**
+	 * The cipher.
+	 */
 	private Cipher cipher;
 	
+	/**
+	 * Constructs a new {@link DBPasswordManager}.
+	 */
 	public DBPasswordManager() {
+		
+		// Try to create a new cipher
 		cipher = null;
 		try {
 			cipher = Cipher.getInstance(TRANSFORMATION);
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getPassword() {
 		try {
+			
+			// Create a random initialization vector
 			byte[] iv = new byte[16];
 			SecureRandom random = new SecureRandom();
 			random.nextBytes(iv);
@@ -65,11 +82,14 @@ public class DBPasswordManager {
 					getKey(),
 					getIV());
 
+			// Read the encrypted final
 			byte[] encrypted = Files.readAllBytes(
 					new File(PASSWORD_LOCATION).toPath());
 			
+			// Decrypt the file
 			byte[] decrypted = cipher.doFinal(encrypted);
 			
+			// Return the decrypted string
 			return new String(decrypted);
 		} catch (InvalidKeyException
 				| InvalidAlgorithmParameterException
@@ -82,6 +102,10 @@ public class DBPasswordManager {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param password
+	 */
 	public void setPassword(String password) {
 		try {
 			cipher.init(
@@ -106,15 +130,19 @@ public class DBPasswordManager {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	private Key createAndSaveNewKey() {
 		try {
 			File f = new File(KEY_LOC);
 			FileOutputStream fs = new FileOutputStream(
 					f, false);
-			KeyGenerator keyGen =
-					KeyGenerator.getInstance("AES");
-			keyGen.init(KEY_LENGTH);
-			SecretKey secretKey = keyGen.generateKey();
+			KeyGenerator keyGenerator =
+					KeyGenerator.getInstance(ENC_METHOD);
+			keyGenerator.init(KEY_LENGTH);
+			SecretKey secretKey = keyGenerator.generateKey();
 			fs.write(secretKey.getEncoded());
 			fs.close();
 			return secretKey;
@@ -125,20 +153,26 @@ public class DBPasswordManager {
 		
 		return null;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	private SecretKeySpec getKey() {
 		try {
-	        return new SecretKeySpec(
-	        		Files.readAllBytes(
-	        				new File(KEY_LOC).toPath()
-	        		), ENC_METHOD);
+	        return new SecretKeySpec(Files.readAllBytes(
+	        				new File(KEY_LOC).toPath()), ENC_METHOD);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		return null;
 	}
-	
 
+	/**
+	 * 
+	 * @return
+	 */
 	private IvParameterSpec createAndSaveNewIV() {
 		try {
 			File f = new File(IV_LOC);
@@ -157,12 +191,16 @@ public class DBPasswordManager {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private IvParameterSpec getIV() {
 		try {
-	        return new IvParameterSpec(
-	        		Files.readAllBytes(
-	        				new File(IV_LOC).toPath()
-	        		));
+			
+			// Return an IV parameter spec based on the IV text file
+	        return new IvParameterSpec(Files.readAllBytes(
+	        		new File(IV_LOC).toPath()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
