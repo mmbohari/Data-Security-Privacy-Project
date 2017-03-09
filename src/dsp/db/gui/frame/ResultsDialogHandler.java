@@ -12,6 +12,13 @@ import dsp.db.gui.actions.CancelDialogAction;
 import dsp.db.gui.actions.OkDialogAction;
 import dsp.db.query.ResultSetController;
 
+/**
+ * The {@link ResultsDialogHandler}.
+ * 
+ * TODO comment.
+ * 
+ * @author Ryan Conrad
+ */
 public class ResultsDialogHandler extends ComponentHandler {
 	
 	private ResultsDialog resultsDialog;

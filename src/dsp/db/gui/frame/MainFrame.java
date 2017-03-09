@@ -9,6 +9,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * The {@link MainFrame}.
+ * 
+ * TODO comment.
+ * 
+ * @author Ryan Conrad
+ */
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 4555982033551373931L;
 	

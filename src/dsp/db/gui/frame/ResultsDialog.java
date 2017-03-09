@@ -10,6 +10,13 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 
+/**
+ * The {@link ResultsDialog}.
+ * 
+ * TODO comment.
+ * 
+ * @author Ryan Conrad
+ */
 public class ResultsDialog extends JDialog {
 	private static final long serialVersionUID = 725393573617079589L;
 	

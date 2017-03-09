@@ -11,6 +11,13 @@ import dsp.db.query.PreparedSelectStatementGenerator;
 import dsp.db.query.ResultSetController;
 import dsp.db.setup.ConnectionController;
 
+/**
+ * The {@link SelectDialogHandler}.
+ * 
+ * TODO comment.
+ * 
+ * @author Ryan Conrad
+ */
 public class SelectDialogHandler extends ComponentHandler {
 	
 	private SelectDialog selectDialog;

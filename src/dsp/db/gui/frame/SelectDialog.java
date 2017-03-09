@@ -13,6 +13,13 @@ import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
 
+/**
+ * The {@link SelectDialog}.
+ * 
+ * TODO comment.
+ * 
+ * @author Ryan Conrad
+ */
 public class SelectDialog extends JDialog {
 	private static final long serialVersionUID = -4028408695149958085L;
 	

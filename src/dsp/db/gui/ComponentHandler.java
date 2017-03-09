@@ -2,6 +2,13 @@ package dsp.db.gui;
 
 import java.awt.Component;
 
+/**
+ * The {@link ComponentHandler}.
+ * 
+ * TODO comment
+ * 
+ * @author Ryan Conrad
+ */
 public abstract class ComponentHandler {
 	private Component component;
 	

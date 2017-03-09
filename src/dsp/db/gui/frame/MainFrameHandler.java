@@ -8,6 +8,13 @@ import dsp.db.gui.ComponentHandler;
 import dsp.db.query.ResultSetController;
 import dsp.db.setup.ConnectionController;
 
+/**
+ * The {@link MainFrameHandler}.
+ * 
+ * TODO comment.
+ * 
+ * @author Ryan Conrad
+ */
 public class MainFrameHandler extends ComponentHandler {
 	
 	private MainFrame mainFrame;
