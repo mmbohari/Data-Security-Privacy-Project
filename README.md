@@ -7,8 +7,20 @@ HOW TO RUN (an example):
 
 1. Double-click the executable jar file Data-Security-Privacy-Project.jar in the Program directory.
 
-2. If there is an error message, then the GUI will essentially run in disconnected mode, meaning the queries won't work.
+2. If there is an error message, then the GUI will essentially run in disconnected mode, meaning the queries won't work. If clicking the executable jar doesn't work, try the alternate steps below. Otherwise, continue to step 3.
 
+    ALTERNATE STEPS (between steps 2 and 3):
+
+    a. Open up a command prompt
+	
+	b. navigate to Eclipse-Project/Data-Security-Privacy-Project
+	
+	c. Run the following command:
+	
+		java -cp "bin;lib/mysql-connector-java-5.1.41-bin.jar" dsp.main.Main
+		
+	d. If the command worked, continue to step 3. Otherwise, there may be an issue with connecting to the database or the program's ability to read the password file.
+	
 3. Click "Show tables" to show the tables.
 
 4. Click either the "X" or "OK" or Cancel to exit this dialog.
