@@ -1,93 +1,125 @@
 package dsp.db.query;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import dsp.db.setup.ConnectionController;
 import dsp.util.StringUtils;
 
+/**
+ * A {@link PreparedSelectStatementGenerator} generates SELECT queries
+ * for SQL.
+ * 
+ * @author Ryan Conrad
+ */
 public class PreparedSelectStatementGenerator
-		implements PreparedStatementGenerator {
+		extends PreparedStatementGenerator {
 	
+	/**
+	 * Ordered enum of query keywords for this generator.
+	 * 
+	 * @author Ryan Conrad
+	 */
 	private enum Keyword {
-		INIT,
 		SELECT,
 		DISTINCT,
 		FROM,
 		WHERE
 	};
 	
-	private ConnectionController connectionController;
-	private String preparedString;
-	
-	private Keyword prev;
-	
-	private List<String> queryFragments;
-	
-	public PreparedSelectStatementGenerator(ConnectionController connectionController) {
-		this.connectionController = connectionController;
-		this.preparedString = "";
+	/**
+	 * Constructs a new {@link PreparedSelectStatementGenerator}.
+	 * 
+	 * @param connectionController The connection controller
+	 */
+	public PreparedSelectStatementGenerator(
+			ConnectionController connectionController) {
 		
-		prev = Keyword.INIT;
-		
-		this.queryFragments = new ArrayList<String>();
+		// Send the connection controller to super
+		super(connectionController);
 	}
 	
-	@Override
-	public ResultSetController executeQuery() throws SQLException {
-		return connectionController.executeQuery(preparedString, queryFragments);
-	}
-	
-	public PreparedSelectStatementGenerator select(String... select) throws DisorderlyQueryException {
+	/**
+	 * Generates a SELECT statement.
+	 * 
+	 * @param select The item(s) to select
+	 * @return this
+	 * @throws DisorderlyQueryException If the query elements are out of order
+	 */
+	public PreparedSelectStatementGenerator select(
+			String... select) throws DisorderlyQueryException {
+		
+		// Special case for selecting all
 		if(select != null && select.length == 1 && "*".equals(select[0])) {
 			return selectAll();
 		}
-		
-		checkSetPrev(Keyword.SELECT);
-		prev = Keyword.SELECT;
-		preparedString += "SELECT " + StringUtils.commaSeparated(select);
+
+		// Append the string and continue building
+		append(Keyword.SELECT, "SELECT " + StringUtils.commaSeparated(select));
 		return this;
 	}
 
-	public PreparedSelectStatementGenerator selectAll() throws DisorderlyQueryException {
-		checkSetPrev(Keyword.SELECT);
-		prev = Keyword.SELECT;
-		preparedString += "SELECT *";
+	/**
+	 * Generates a SELECT * statement.
+	 * 
+	 * @return this
+	 * @throws DisorderlyQueryException If the query elements are out of order
+	 */
+	public PreparedSelectStatementGenerator selectAll()
+			throws DisorderlyQueryException {
+		
+		// Append the string and continue building
+		append(Keyword.SELECT, "SELECT *");
 		return this;
 	}
 	
-	public PreparedSelectStatementGenerator distinct() throws DisorderlyQueryException {
-		checkSetPrev(Keyword.DISTINCT);
+	/**
+	 * Sets the selection to be distinct.
+	 * 
+	 * @return this
+	 * @throws DisorderlyQueryException If the query elements are out of order
+	 */
+	public PreparedSelectStatementGenerator distinct()
+			throws DisorderlyQueryException {
+
+		// Append the distinct setting and continue building
+		append(Keyword.DISTINCT);
 		return this;
 	}
 	
-	public PreparedSelectStatementGenerator from(String from) throws DisorderlyQueryException {
-		checkSetPrev(Keyword.FROM);
-		preparedString += "FROM " + from;
+	/**
+	 * Generates a FROM statement.
+	 * 
+	 * @param from The tables
+	 * @return this
+	 * @throws DisorderlyQueryException If the query elements are out of order
+	 */
+	public PreparedSelectStatementGenerator from(
+			String from) throws DisorderlyQueryException {
+		
+		// Append the string and continue building
+		append(Keyword.FROM, "FROM " + from);
 		return this;
 	}
 	
-	public PreparedSelectStatementGenerator where(String attribute, String value) throws DisorderlyQueryException {
+	/**
+	 * Generates a WHERE statement.
+	 * 
+	 * @param attribute The attribute to check
+	 * @param value The value to look for
+	 * @return this
+	 * @throws DisorderlyQueryException If the query elements are out of order
+	 */
+	public PreparedSelectStatementGenerator where(
+			String attribute, String value) throws DisorderlyQueryException {
+		
+		// Special case for null or empty input
+		// TODO Handle these cases with more grace
+		// (i.e. what if only one is filled out?)
 		if(attribute == null || attribute.isEmpty()
 				|| value == null || value.isEmpty()) {
 			return this;
 		}
-		checkSetPrev(Keyword.WHERE);
-		preparedString += "WHERE " + attribute + " = ?";
-		queryFragments.add(value);
+
+		// Append the string and continue building
+		append(Keyword.WHERE, "WHERE " + attribute + " = ?", value);
 		return this;
-	}
-	
-	private void checkSetPrev(Keyword curr) throws DisorderlyQueryException {
-		if(curr.ordinal() <= prev.ordinal()) {
-			throw new DisorderlyQueryException();
-		}
-		else {
-			if(!prev.equals(Keyword.INIT)) {
-				preparedString += " ";
-			}
-			prev = curr;
-		}
 	}
 }

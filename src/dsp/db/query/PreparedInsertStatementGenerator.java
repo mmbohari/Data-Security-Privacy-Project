@@ -1,96 +1,106 @@
 package dsp.db.query;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
+import dsp.db.setup.ConnectionController;
 import dsp.util.StringUtils;
 
+/**
+ * A {@link PreparedInsertStatementGenerator} generates INSERT INTO
+ * queries for SQL.
+ * 
+ * @author Ryan Conrad
+ */
 public class PreparedInsertStatementGenerator
-		implements PreparedStatementGenerator {
+		extends PreparedStatementGenerator {
 
+	/**
+	 * Ordered enum of query keywords for this generator.
+	 * 
+	 * @author Ryan Conrad
+	 */
 	private enum Keyword {
-		INIT,
 		INSERT_INTO,
 		VALUES,
 	};
 	
-	private PreparedStatement stmt;
-	private Connection connection;
-	private String preparedString;
-	
-	private Keyword prev;
-	
-	private List<String> queryFragments;
-	
-	public PreparedInsertStatementGenerator(Connection connection) {
-		this.connection = connection;
-		this.preparedString = "";
-		
-		prev = Keyword.INIT;
-		
-		this.queryFragments = new ArrayList<String>();
+	/**
+	 * Constructs a new {@link PreparedInsertStatementGenerator}.
+	 * 
+	 * @param connectionController The connection controller
+	 */
+	public PreparedInsertStatementGenerator(
+			ConnectionController connectionController) {
+
+		// Send the connection controller to super
+		super(connectionController);
 	}
 	
 	@Override
 	public ResultSetController executeQuery() throws SQLException {
-		stmt = connection.prepareStatement(preparedString);
-		int index = 1;
-		for(String query : queryFragments) {
-			stmt.setString(index++, query);
-		}
-		System.out.println(stmt);
-		
 		// TODO Make sure the query is correct before executing it
 		return null;
-		//return stmt.executeQuery();
+		//return super.executeQuery();
 	}
 	
+	/**
+	 * Generates an INSERT INTO statement.
+	 * 
+	 * @param table The table
+	 * @return this
+	 * @throws DisorderlyQueryException If the query elements are out of order
+	 */
 	public PreparedInsertStatementGenerator insertInto(String table)
 			throws DisorderlyQueryException {
+		
+		// Use the other insertInto(...) method with no columns
 		return insertInto(table, new String[0]);
 	}
 	
+	/**
+	 * Generates an INSERT INTO statement.
+	 * 
+	 * @param table The table
+	 * @param columns The columns
+	 * @return this
+	 * @throws DisorderlyQueryException If the query elements are out of order
+	 */
 	public PreparedInsertStatementGenerator insertInto(
 			String table, String... columns)
 			throws DisorderlyQueryException {
-		checkSetPrev(Keyword.INSERT_INTO);
-		preparedString += "INSERT INTO " + table;
+		
+		// Prepare the string
+		String preparedString = "INSERT INTO " + table;
 		if(columns != null && columns.length > 0) {
 			preparedString += "(";
 			preparedString += StringUtils.commaSeparated(columns);
 			preparedString += ")";
 		}
+		
+		// Append the string and continue building
+		append(Keyword.INSERT_INTO, preparedString);
 		return this;
 	}
 	
+	/**
+	 * Generates a VALUES statement.
+	 * 
+	 * @param values The values to insert
+	 * @return this
+	 * @throws DisorderlyQueryException If the query elements are out of order
+	 */
 	public PreparedInsertStatementGenerator values(String... values)
 			throws DisorderlyQueryException {
-		checkSetPrev(Keyword.VALUES);
-		preparedString += "VALUES";
+		
+		// Prepare the string
+		String preparedString = "VALUES";
 		preparedString += "(";
 		preparedString += StringUtils.commaSeparated(
 				StringUtils.fill(values.length, "?"));
 		preparedString += ")";
 		
-		for(String value : values) {
-			queryFragments.add(value);
-		}
-		
+		// Append the string and continue building
+		append(Keyword.VALUES, preparedString, values);
 		return this;
-	}
-	
-	private void checkSetPrev(Keyword curr) throws DisorderlyQueryException {
-		if(curr.ordinal() <= prev.ordinal()) {
-			throw new DisorderlyQueryException();
-		}
-		else {
-			if(!prev.equals(Keyword.INIT)) {
-				preparedString += " ";
-			}
-			prev = curr;
-		}
 	}
 }
