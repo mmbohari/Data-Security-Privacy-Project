@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import dsp.db.gui.ComponentHandler;
 import dsp.db.gui.actions.CancelDialogAction;
 import dsp.db.query.DisorderlyQueryException;
@@ -61,6 +63,15 @@ public class SelectDialogHandler extends ComponentHandler {
 					rd.setVisible(true);
 					
 				} catch (SQLException | DisorderlyQueryException e) {
+					// Show an error message
+					JOptionPane.showMessageDialog(
+							null,
+							"Bad SQL query.",
+							"Error!",
+							JOptionPane.ERROR_MESSAGE);
+					
+					// TODO auditing
+					
 					e.printStackTrace();
 				}
 			}
