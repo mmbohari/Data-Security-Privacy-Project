@@ -5,7 +5,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import dsp.db.gui.ComponentHandler;
@@ -19,6 +24,8 @@ import dsp.db.setup.ConnectionController;
 import dsp.db.table.DBAttribute;
 import dsp.db.table.DBTable;
 import dsp.db.table.set.DBTables;
+import dsp.util.GUIUtils;
+import dsp.util.StringUtils;
 
 /**
  * The {@link SelectDialogHandler}.
@@ -46,12 +53,8 @@ public class SelectDialogHandler extends ComponentHandler {
 	@Override
 	protected void setup() {
 		
-		selectDialog.getSelectComboBox().setRenderer(
-				new TextItemListCellRenderer());
 		selectDialog.getFromComboBox().setRenderer(
 				new TextItemListCellRenderer());
-		
-		selectDialog.getSelectComboBox().addItem(new TextItem("*", "*"));
 		
 		for(DBTable table : DBTables.getTables()) {
 			selectDialog.getFromComboBox().addItem(table);
@@ -62,6 +65,15 @@ public class SelectDialogHandler extends ComponentHandler {
 		selectDialog.getCancelButton().setAction(
 				new CancelDialogAction(
 						selectDialog));
+		
+		selectDialog.getAddSelectButton().addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				selectDialog.addNewSelectComboBox();
+				refreshAttributes();
+			}
+		});
 	}
 
 	@Override
@@ -73,7 +85,7 @@ public class SelectDialogHandler extends ComponentHandler {
 				try {
 					ResultSetController rsc = new PreparedSelectStatementGenerator(
 							connectionController)
-						.select(selectDialog.getSelectComboBox().getSelectedItem().toString())
+						.select(getCommaSeparatedSelect())
 						.from(selectDialog.getFromComboBox().getSelectedItem().toString())
 						.where(selectDialog.getWhereAttributeTextField().getText(),
 								selectDialog.getWhereValueTextField().getText())
@@ -103,18 +115,45 @@ public class SelectDialogHandler extends ComponentHandler {
 
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
+				selectDialog.reinitSelectComboBoxes();
 				refreshAttributes();
 			}
 		});
 	}
 	
 	private void refreshAttributes() {
-		selectDialog.getSelectComboBox().removeAllItems();
-		DBTable selectedTable = DBTables.getTablesAsMap().get(
-				selectDialog.getFromComboBox().getSelectedItem());
-		for(DBAttribute dba : selectedTable.getAttributes()) {
-			selectDialog.getSelectComboBox().addItem(dba);
+		
+		int i = 0;
+		for(JComboBox<TextItem> comboBox :
+				selectDialog.getSelectComboBoxes()) {
+			comboBox.removeAllItems();
+			DBTable selectedTable = DBTables.getTablesAsMap().get(
+					selectDialog.getFromComboBox().getSelectedItem());
+			for(DBAttribute dba : selectedTable.getAttributes()) {
+				comboBox.addItem(dba);
+			}
+			if(i >= selectedTable.getAttributes().size()) {
+				comboBox.setSelectedIndex(0);
+			}
+			else {
+				comboBox.setSelectedIndex(i++);
+			}
+			
+			selectDialog.getAddSelectButton().setEnabled(
+					i < selectedTable.getAttributes().size());
 		}
 	}
 
+	private String getCommaSeparatedSelect() {
+		Collection<JComboBox<TextItem>> comboBoxes =
+				selectDialog.getSelectComboBoxes();
+		String[] items = new String[selectDialog.getSelectComboBoxes().size()];
+		
+		int i = 0;
+		for(JComboBox<TextItem> comboBox : comboBoxes) {
+			items[i++]  = comboBox.getSelectedItem().toString();
+		}
+		
+		return StringUtils.commaSeparated(items);
+	}
 }

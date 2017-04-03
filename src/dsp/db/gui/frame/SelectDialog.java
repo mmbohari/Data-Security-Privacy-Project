@@ -2,20 +2,23 @@ package dsp.db.gui.frame;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import dsp.db.gui.text.TextItem;
-
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
-import java.awt.Insets;
-import javax.swing.JComboBox;
+import dsp.db.gui.text.TextItemListCellRenderer;
 
 /**
  * The {@link SelectDialog}.
@@ -28,7 +31,7 @@ public class SelectDialog extends JDialog {
 	private static final long serialVersionUID = -4028408695149958085L;
 	
 	private final JPanel contentPanel = new JPanel();
-	private JComboBox<TextItem> selectComboBox;
+	private List<JComboBox<TextItem>> selectComboBoxes;
 	private JComboBox<TextItem> fromComboBox;
 	private JTextField whereAttributeTextField;
 	private JLabel selectLabel;
@@ -38,6 +41,8 @@ public class SelectDialog extends JDialog {
 	private JButton cancelButton;
 	private JLabel whereEqualsLabel;
 	private JTextField whereValueTextField;
+	private JButton addSelectButton;
+	private JPanel selectComboBoxPanel;
 
 	/**
 	 * Launch the application.
@@ -67,7 +72,7 @@ public class SelectDialog extends JDialog {
 			GridBagLayout gbl_selectGridPanel = new GridBagLayout();
 			gbl_selectGridPanel.columnWidths = new int[] {0};
 			gbl_selectGridPanel.rowHeights = new int[] {0};
-			gbl_selectGridPanel.columnWeights = new double[]{1.0, 1.0, 0.0, 1.0};
+			gbl_selectGridPanel.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0};
 			gbl_selectGridPanel.rowWeights = new double[]{0.0, 0.0, 0.0};
 			selectGridPanel.setLayout(gbl_selectGridPanel);
 			{
@@ -80,14 +85,19 @@ public class SelectDialog extends JDialog {
 				selectGridPanel.add(selectLabel, gbc_selectLabel);
 			}
 			{
-				selectComboBox = new JComboBox<TextItem>();
-				GridBagConstraints gbc_selectTextField = new GridBagConstraints();
-				gbc_selectTextField.gridwidth = 3;
-				gbc_selectTextField.insets = new Insets(0, 0, 5, 0);
-				gbc_selectTextField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_selectTextField.gridx = 1;
-				gbc_selectTextField.gridy = 0;
-				selectGridPanel.add(selectComboBox, gbc_selectTextField);
+				selectComboBoxPanel = new JPanel();
+				GridBagConstraints gbc_selectComboBoxPanel = new GridBagConstraints();
+				gbc_selectComboBoxPanel.fill = GridBagConstraints.BOTH;
+				gbc_selectComboBoxPanel.gridwidth = 3;
+				gbc_selectComboBoxPanel.insets = new Insets(0, 0, 5, 5);
+				gbc_selectComboBoxPanel.gridx = 1;
+				gbc_selectComboBoxPanel.gridy = 0;
+				selectGridPanel.add(selectComboBoxPanel, gbc_selectComboBoxPanel);
+				selectComboBoxPanel.setLayout(new BoxLayout(selectComboBoxPanel, BoxLayout.Y_AXIS));
+				{
+					selectComboBoxes = new ArrayList<JComboBox<TextItem>>();
+					addNewSelectComboBox();
+				}
 			}
 			{
 				fromLabel = new JLabel("FROM");
@@ -102,7 +112,7 @@ public class SelectDialog extends JDialog {
 				fromComboBox = new JComboBox<TextItem>();
 				GridBagConstraints gbc_fromTextField = new GridBagConstraints();
 				gbc_fromTextField.gridwidth = 3;
-				gbc_fromTextField.insets = new Insets(0, 0, 5, 0);
+				gbc_fromTextField.insets = new Insets(0, 0, 5, 5);
 				gbc_fromTextField.fill = GridBagConstraints.HORIZONTAL;
 				gbc_fromTextField.gridx = 1;
 				gbc_fromTextField.gridy = 1;
@@ -128,6 +138,15 @@ public class SelectDialog extends JDialog {
 				whereAttributeTextField.setColumns(10);
 			}
 			{
+				addSelectButton = new JButton("+");
+				GridBagConstraints gbc_btnAddSelect = new GridBagConstraints();
+				gbc_btnAddSelect.fill = GridBagConstraints.HORIZONTAL;
+				gbc_btnAddSelect.insets = new Insets(0, 0, 5, 0);
+				gbc_btnAddSelect.gridx = 4;
+				gbc_btnAddSelect.gridy = 0;
+				selectGridPanel.add(addSelectButton, gbc_btnAddSelect);
+			}
+			{
 				whereEqualsLabel = new JLabel("=");
 				GridBagConstraints gbc_whereEqualsLabel = new GridBagConstraints();
 				gbc_whereEqualsLabel.insets = new Insets(0, 0, 0, 5);
@@ -138,6 +157,7 @@ public class SelectDialog extends JDialog {
 			{
 				whereValueTextField = new JTextField();
 				GridBagConstraints gbc_whereValueTextField = new GridBagConstraints();
+				gbc_whereValueTextField.insets = new Insets(0, 0, 0, 5);
 				gbc_whereValueTextField.fill = GridBagConstraints.HORIZONTAL;
 				gbc_whereValueTextField.gridx = 3;
 				gbc_whereValueTextField.gridy = 2;
@@ -162,12 +182,31 @@ public class SelectDialog extends JDialog {
 			}
 		}
 	}
+	
+	public void reinitSelectComboBoxes() {
+		selectComboBoxPanel.removeAll();
+		selectComboBoxes.clear();
+		addNewSelectComboBox();
+	}
+	
+	public void addNewSelectComboBox() {
+		JComboBox<TextItem> comboBox = new JComboBox<TextItem>();
+		comboBox.setRenderer(new TextItemListCellRenderer());
+		selectComboBoxPanel.add(comboBox);
+		selectComboBoxes.add(comboBox);
+		
+		revalidate();
+		repaint();
+	}
 
 	public JLabel getSelectLabel() {
 		return selectLabel;
 	}
-	public JComboBox<TextItem> getSelectComboBox() {
-		return selectComboBox;
+	public List<JComboBox<TextItem>> getSelectComboBoxes() {
+		return selectComboBoxes;
+	}
+	public JButton getAddSelectButton() {
+		return addSelectButton;
 	}
 	public JLabel getFromLabel() {
 		return fromLabel;

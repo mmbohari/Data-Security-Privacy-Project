@@ -34,7 +34,9 @@ public class TextItemListCellRenderer
 		
 		if(component instanceof JLabel) {
 			JLabel label = (JLabel) component;
-			label.setText(value.getText());
+			if(value != null) {
+				label.setText(value.getText());
+			}
 		}
 		
 		return component;
