@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import dsp.db.gui.library.HidableJComboBox;
 import dsp.db.gui.text.TextItem;
 import dsp.db.gui.text.TextItemListCellRenderer;
 
@@ -31,7 +32,7 @@ public class SelectDialog extends JDialog {
 	private static final long serialVersionUID = -4028408695149958085L;
 	
 	private final JPanel contentPanel = new JPanel();
-	private List<JComboBox<TextItem>> selectComboBoxes;
+	private List<HidableJComboBox<TextItem>> selectComboBoxes;
 	private JComboBox<TextItem> fromComboBox;
 	private JTextField whereAttributeTextField;
 	private JLabel selectLabel;
@@ -95,7 +96,7 @@ public class SelectDialog extends JDialog {
 				selectGridPanel.add(selectComboBoxPanel, gbc_selectComboBoxPanel);
 				selectComboBoxPanel.setLayout(new BoxLayout(selectComboBoxPanel, BoxLayout.Y_AXIS));
 				{
-					selectComboBoxes = new ArrayList<JComboBox<TextItem>>();
+					selectComboBoxes = new ArrayList<HidableJComboBox<TextItem>>();
 					addNewSelectComboBox();
 				}
 			}
@@ -183,26 +184,29 @@ public class SelectDialog extends JDialog {
 		}
 	}
 	
-	public void reinitSelectComboBoxes() {
+	public HidableJComboBox<TextItem> reinitSelectComboBoxes() {
 		selectComboBoxPanel.removeAll();
 		selectComboBoxes.clear();
-		addNewSelectComboBox();
+		return addNewSelectComboBox();
 	}
 	
-	public void addNewSelectComboBox() {
-		JComboBox<TextItem> comboBox = new JComboBox<TextItem>();
+	public HidableJComboBox<TextItem> addNewSelectComboBox() {
+		HidableJComboBox<TextItem> comboBox =
+				new HidableJComboBox<TextItem>();
 		comboBox.setRenderer(new TextItemListCellRenderer());
 		selectComboBoxPanel.add(comboBox);
 		selectComboBoxes.add(comboBox);
 		
 		revalidate();
 		repaint();
+		
+		return comboBox;
 	}
 
 	public JLabel getSelectLabel() {
 		return selectLabel;
 	}
-	public List<JComboBox<TextItem>> getSelectComboBoxes() {
+	public List<HidableJComboBox<TextItem>> getSelectComboBoxes() {
 		return selectComboBoxes;
 	}
 	public JButton getAddSelectButton() {

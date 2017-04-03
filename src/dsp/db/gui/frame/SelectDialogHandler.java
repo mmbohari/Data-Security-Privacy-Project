@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 
 import dsp.db.gui.ComponentHandler;
 import dsp.db.gui.actions.CancelDialogAction;
+import dsp.db.gui.library.HidableJComboBox;
 import dsp.db.gui.text.TextItem;
 import dsp.db.gui.text.TextItemListCellRenderer;
 import dsp.db.query.DisorderlyQueryException;
@@ -52,6 +53,9 @@ public class SelectDialogHandler extends ComponentHandler {
 
 	@Override
 	protected void setup() {
+
+		addListenerToSelectComboBox(
+				selectDialog.reinitSelectComboBoxes());
 		
 		selectDialog.getFromComboBox().setRenderer(
 				new TextItemListCellRenderer());
@@ -70,8 +74,10 @@ public class SelectDialogHandler extends ComponentHandler {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				selectDialog.addNewSelectComboBox();
+				HidableJComboBox<TextItem> comboBox =
+						selectDialog.addNewSelectComboBox();
 				refreshAttributes();
+				addListenerToSelectComboBox(comboBox);
 			}
 		});
 	}
@@ -115,7 +121,8 @@ public class SelectDialogHandler extends ComponentHandler {
 
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				selectDialog.reinitSelectComboBoxes();
+				addListenerToSelectComboBox(
+						selectDialog.reinitSelectComboBoxes());
 				refreshAttributes();
 			}
 		});
@@ -145,7 +152,7 @@ public class SelectDialogHandler extends ComponentHandler {
 	}
 
 	private String getCommaSeparatedSelect() {
-		Collection<JComboBox<TextItem>> comboBoxes =
+		Collection<HidableJComboBox<TextItem>> comboBoxes =
 				selectDialog.getSelectComboBoxes();
 		String[] items = new String[selectDialog.getSelectComboBoxes().size()];
 		
@@ -155,5 +162,41 @@ public class SelectDialogHandler extends ComponentHandler {
 		}
 		
 		return StringUtils.commaSeparated(items);
+	}
+	
+	private void addListenerToSelectComboBox(
+			JComboBox<TextItem> comboBox) {
+		comboBox.addItemListener(new ItemListener() {
+			
+			private Object prevItem = null;
+
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(arg0.getStateChange() == ItemEvent.SELECTED) {
+					for(HidableJComboBox<TextItem> comboBox :
+						selectDialog.getSelectComboBoxes()) {
+						System.err.println("1");
+						if(comboBox != arg0.getSource()) {
+							if(prevItem != null
+									&& prevItem instanceof TextItem) {
+								System.err.println(prevItem);
+								System.err.println("UNHIDE!");
+								comboBox.unhide((TextItem) prevItem);
+								System.err.println("UNHIDE DONE!");
+							}
+							if(arg0.getItem() instanceof TextItem) {
+								System.err.println(arg0.getItem());
+								System.err.println("HIDE!");
+								comboBox.hide((TextItem) arg0.getItem());
+								System.err.println("HIDE DONE!");
+							}
+						}
+					}
+					prevItem = arg0.getItem();
+					System.err.println("PREV!");
+				}
+			}
+			
+		});
 	}
 }
