@@ -22,6 +22,7 @@ import dsp.db.setup.ConnectionController;
 import dsp.db.table.DBAttribute;
 import dsp.db.table.DBTable;
 import dsp.db.table.set.DBTables;
+import dsp.util.GUIUtils;
 import dsp.util.StringUtils;
 
 /**
@@ -73,6 +74,8 @@ public class SelectDialogHandler extends ComponentHandler {
 				HidableJComboBox<TextItem> comboBox =
 						selectDialog.addNewSelectComboBox();
 				refreshAttributes();
+				GUIUtils.hideDuplicateItems(
+						selectDialog.getSelectComboBoxes());
 				addListenerToSelectComboBox(comboBox);
 			}
 		});
@@ -164,32 +167,25 @@ public class SelectDialogHandler extends ComponentHandler {
 			JComboBox<TextItem> comboBox) {
 		comboBox.addItemListener(new ItemListener() {
 			
-			private Object prevItem = null;
+			private Object prevItem = comboBox.getSelectedItem();
 
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				if(arg0.getStateChange() == ItemEvent.SELECTED) {
 					for(HidableJComboBox<TextItem> comboBox :
 						selectDialog.getSelectComboBoxes()) {
-						System.err.println("1");
 						if(comboBox != arg0.getSource()) {
-							if(prevItem != null
-									&& prevItem instanceof TextItem) {
-								System.err.println(prevItem);
-								System.err.println("UNHIDE!");
+							if(prevItem instanceof TextItem) {
 								comboBox.unhide((TextItem) prevItem);
-								System.err.println("UNHIDE DONE!");
 							}
-							if(arg0.getItem() instanceof TextItem) {
-								System.err.println(arg0.getItem());
-								System.err.println("HIDE!");
+							if(arg0.getItem() instanceof TextItem
+									&& !arg0.getItem().equals(
+											comboBox.getSelectedItem())) {
 								comboBox.hide((TextItem) arg0.getItem());
-								System.err.println("HIDE DONE!");
 							}
 						}
 					}
 					prevItem = arg0.getItem();
-					System.err.println("PREV!");
 				}
 			}
 			

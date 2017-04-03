@@ -5,7 +5,28 @@ import java.util.HashSet;
 
 import javax.swing.JComboBox;
 
+import dsp.db.gui.library.HidableJComboBox;
+
 public class GUIUtils {
+	
+	@SuppressWarnings("unchecked")
+	public static <T> void hideDuplicateItems(
+			Collection<HidableJComboBox<T>> comboBoxes) {
+		
+		Collection<Object> selections = getSelectedItems(comboBoxes);
+		for(HidableJComboBox<T> comboBox : comboBoxes) {
+			for(Object selection: selections) {
+				if(!comboBox.getSelectedItem().equals(selection)) {
+					try {
+						comboBox.hide((T)selection);
+					}
+					catch(ClassCastException e) {
+						System.err.println(e.getMessage());
+					}
+				}
+			}
+		}
+	}
 	
 	public static <T> void makeSelectionUnique(
 			JComboBox<T> comboBox,
@@ -29,10 +50,10 @@ public class GUIUtils {
 	}
 	
 	public static <T> Collection<Object> getSelectedItems(
-			Collection<JComboBox<T>> comboBoxes) {
+			Collection<? extends JComboBox<T>> comboBoxes) {
 		Collection<Object> selections = new HashSet<Object>();
 		for(JComboBox<?> comboBox : comboBoxes) {
-			selections.add(comboBox);
+			selections.add(comboBox.getSelectedItem());
 		}
 		return selections;
 	}

@@ -26,9 +26,7 @@ public class HidableJComboBox<E> extends JComboBox<E> {
 			}
 		}
 		if(index != -1) {
-			System.err.println("REMOVING");
 			removeItem(item);
-			System.err.println("REMOVE DONE");
 			hiddenItems.put(item, index);
 		}
 	}
