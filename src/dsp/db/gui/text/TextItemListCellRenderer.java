@@ -1,6 +1,5 @@
 package dsp.db.gui.text;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;

@@ -6,10 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
@@ -25,7 +22,6 @@ import dsp.db.setup.ConnectionController;
 import dsp.db.table.DBAttribute;
 import dsp.db.table.DBTable;
 import dsp.db.table.set.DBTables;
-import dsp.util.GUIUtils;
 import dsp.util.StringUtils;
 
 /**
