@@ -1,5 +1,7 @@
 package dsp.db.setup;
 
+import dsp.db.gui.frame.LoginFrame;
+import dsp.db.gui.frame.LoginFrameHandler;
 import dsp.db.gui.frame.MainFrame;
 import dsp.db.gui.frame.MainFrameHandler;
 
@@ -44,8 +46,8 @@ public class GUILauncher {
 		LookAndFeelController.initLookAndFeel();
 		
 		// Initialize the main frame and its handler, and show the frame
-        MainFrame mainFrame = new MainFrame();
-        new MainFrameHandler(mainFrame, connectionController);
-        mainFrame.setVisible(true);
+        LoginFrame loginFrame = new LoginFrame();
+        new LoginFrameHandler(loginFrame, connectionController);
+        loginFrame.setVisible(true);
 	}
 }
