@@ -24,7 +24,7 @@ public class ResultsDialogHandler extends ComponentHandler {
 	private ResultsDialog resultsDialog;
 	private ResultSetController rsc;
 
-	protected ResultsDialogHandler(
+	public ResultsDialogHandler(
 			ResultsDialog resultsDialog,
 			ResultSetController rsc) {
 		super(resultsDialog);

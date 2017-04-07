@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import dsp.db.gui.ComponentHandler;
+import dsp.db.gui.frame.dev.DevDialog;
+import dsp.db.gui.frame.dev.DevDialogHandler;
 import dsp.db.setup.ConnectionController;
 
 public class LoginFrameHandler extends ComponentHandler {
@@ -50,6 +52,17 @@ public class LoginFrameHandler extends ComponentHandler {
 			public void actionPerformed(ActionEvent arg0) {
 				loginFrame.getRegUsernameField().getText();
 				loginFrame.getRegPasswordField().getPassword();
+			}
+			
+		});
+		
+		loginFrame.getDevModeButton().addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				DevDialog devDialog = new DevDialog();
+				new DevDialogHandler(devDialog, connectionController);
+				devDialog.setVisible(true);
 			}
 			
 		});

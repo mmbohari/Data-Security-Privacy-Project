@@ -25,6 +25,7 @@ public class LoginFrame extends JDialog {
 	private JPasswordField regPasswordField;
 	private JButton loginButton;
 	private JButton registerButton;
+	private JButton btnDevMode;
 
 	/**
 	 * Launch the application.
@@ -50,15 +51,14 @@ public class LoginFrame extends JDialog {
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[] {0};
 		gbl_contentPanel.rowHeights = new int[] {0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0};
-		gbl_contentPanel.rowWeights = new double[]{1.0};
+		gbl_contentPanel.columnWeights = new double[]{1.0, 0.0, 1.0};
+		gbl_contentPanel.rowWeights = new double[]{1.0, 1.0};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel registerPanel = new JPanel();
 			GridBagConstraints gbc_registerPanel = new GridBagConstraints();
-			gbc_registerPanel.anchor = GridBagConstraints.WEST;
-			gbc_registerPanel.fill = GridBagConstraints.VERTICAL;
-			gbc_registerPanel.insets = new Insets(0, 0, 0, 5);
+			gbc_registerPanel.insets = new Insets(0, 0, 5, 0);
+			gbc_registerPanel.fill = GridBagConstraints.BOTH;
 			gbc_registerPanel.gridx = 2;
 			gbc_registerPanel.gridy = 0;
 			contentPanel.add(registerPanel, gbc_registerPanel);
@@ -130,7 +130,7 @@ public class LoginFrame extends JDialog {
 			separator.setOrientation(SwingConstants.VERTICAL);
 			GridBagConstraints gbc_separator = new GridBagConstraints();
 			gbc_separator.fill = GridBagConstraints.BOTH;
-			gbc_separator.insets = new Insets(0, 10, 0, 10);
+			gbc_separator.insets = new Insets(0, 10, 5, 10);
 			gbc_separator.gridx = 1;
 			gbc_separator.gridy = 0;
 			contentPanel.add(separator, gbc_separator);
@@ -138,8 +138,8 @@ public class LoginFrame extends JDialog {
 		{
 			JPanel loginPanel = new JPanel();
 			GridBagConstraints gbc_loginPanel = new GridBagConstraints();
-			gbc_loginPanel.anchor = GridBagConstraints.WEST;
-			gbc_loginPanel.fill = GridBagConstraints.VERTICAL;
+			gbc_loginPanel.insets = new Insets(0, 0, 5, 5);
+			gbc_loginPanel.fill = GridBagConstraints.BOTH;
 			gbc_loginPanel.gridx = 0;
 			gbc_loginPanel.gridy = 0;
 			contentPanel.add(loginPanel, gbc_loginPanel);
@@ -206,6 +206,20 @@ public class LoginFrame extends JDialog {
 				loginPanel.add(loginButton, gbc_loginButton);
 			}
 		}
+		{
+			JPanel panel = new JPanel();
+			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.gridwidth = 3;
+			gbc_panel.insets = new Insets(0, 0, 0, 5);
+			gbc_panel.fill = GridBagConstraints.BOTH;
+			gbc_panel.gridx = 0;
+			gbc_panel.gridy = 1;
+			contentPanel.add(panel, gbc_panel);
+			{
+				btnDevMode = new JButton("Dev Mode");
+				panel.add(btnDevMode);
+			}
+		}
 	}
 
 	public JButton getLoginButton() {
@@ -225,5 +239,8 @@ public class LoginFrame extends JDialog {
 	}
 	public JPasswordField getRegPasswordField() {
 		return regPasswordField;
+	}
+	public JButton getDevModeButton() {
+		return btnDevMode;
 	}
 }
