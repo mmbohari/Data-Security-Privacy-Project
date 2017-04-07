@@ -42,4 +42,25 @@ public class StringUtils {
 		}
 		return parameterizedArray;
 	}
+	
+	public static final String splitLines(String str, int charLimit) {
+		char[] arr = str.toCharArray();
+		int charPos = 0;
+		while(charPos < arr.length) {
+			int prevCharPos = charPos;
+			charPos += charLimit;
+			if(charPos < arr.length) {
+				while(arr[charPos] != ' ' && charPos > prevCharPos) {
+					charPos--;
+				}
+				if(charPos > prevCharPos) {
+					arr[charPos] = '\n';
+				}
+				else {
+					charPos += charLimit;
+				}
+			}
+		}
+		return new String(arr);
+	}
 }

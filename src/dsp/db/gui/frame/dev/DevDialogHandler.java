@@ -4,11 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import dsp.db.gui.ComponentHandler;
 import dsp.db.gui.frame.ResultsDialog;
 import dsp.db.gui.frame.ResultsDialogHandler;
 import dsp.db.query.ResultSetController;
 import dsp.db.setup.ConnectionController;
+import dsp.util.StringUtils;
 
 public class DevDialogHandler extends ComponentHandler {
 	
@@ -50,7 +53,11 @@ public class DevDialogHandler extends ComponentHandler {
 				rd.setVisible(true);
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(
+						devDialog,
+						StringUtils.splitLines(e.getMessage(), 36),
+						"SQL Error",
+						JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
