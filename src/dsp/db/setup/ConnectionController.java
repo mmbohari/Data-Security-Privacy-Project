@@ -31,7 +31,7 @@ public class ConnectionController {
 	 * The URL of the database.
 	 */
 	public static final String URL =
-			"dsap-project.c7nndjr2fzxb.us-east-1.rds.amazonaws.com";
+			"mariadb-healthcare.c7nndjr2fzxb.us-east-1.rds.amazonaws.com";
 	
 	/**
 	 * The port number to use for the database.
@@ -127,6 +127,26 @@ public class ConnectionController {
 			// With no connection, return an empty result set
 			return new ResultSetController();
 		}
+	}
+	
+	/**
+	 * Attempts to execute a statement on the server.
+	 * in a {@link ResultSetController}.
+	 * 
+	 * @param sql The query
+	 * @return True if successful
+	 * @throws SQLException
+	 */
+	public boolean execute(String sql) throws SQLException {
+		
+		// If the server is connected
+		if(isConnected) {
+			
+			// Return the results of the executed query
+			return connection.prepareStatement(sql).execute();
+		}
+		
+		return false;
 	}
 
 	/**
