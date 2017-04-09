@@ -45,12 +45,16 @@ public class DevDialogHandler extends ComponentHandler {
 		public void actionPerformed(ActionEvent arg0) {
 
 			try {
+				/*
 				ResultSetController rsc = connectionController
 					.executeQuery(devDialog.getQueryTextField().getText());
 				
 				ResultsDialog rd = new ResultsDialog();
 				new ResultsDialogHandler(rd,rsc);
 				rd.setVisible(true);
+				*/
+				boolean resultIsResultSet = 
+						connectionController.execute(devDialog.getQueryTextField().getText());
 				
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(
