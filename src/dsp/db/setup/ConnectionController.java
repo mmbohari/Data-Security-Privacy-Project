@@ -42,24 +42,24 @@ public class ConnectionController {
 	/**
 	 * The name of the database.
 	 */
-	public static final String DATABASE_NAME = "Healthcare";
+	public static final String DATABASE_NAME = "mysql";
 	
 	/**
 	 * The username of the database on the remote.
 	 */
-	public static final String REMOTE_DATABASE_USERNAME = "dsap_group3";
+	public static final String REMOTE_DATABASE_USERNAME = "loginApril102017";
 	
 	/**
 	 * The connection.
 	 */
-	Connection connection;
+	private Connection connection;
 	
 	/**
 	 * If false, the connection wasn't established (it's null).
 	 * 
 	 * Otherwise, the connection was successful.
 	 */
-	boolean isConnected;
+	private boolean isConnected;
 	
 	/**
 	 * Creates a new {@link ConnectionController}.
@@ -75,7 +75,7 @@ public class ConnectionController {
 	 * @param password The database's password
 	 */
 	public boolean connect(String password) {
-		return connect(REMOTE_DATABASE_USERNAME, password);
+		return connect(DATABASE_NAME, REMOTE_DATABASE_USERNAME, password);
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class ConnectionController {
 	 * @param username The user's username
 	 * @param password The user's password
 	 */
-	public boolean connect(String username, String password) {
+	public boolean connect(String database, String username, String password) {
 		
 		if(connection != null) {
 			try {
@@ -109,7 +109,7 @@ public class ConnectionController {
 	    try {
 	        connection = DriverManager.
 	                getConnection("jdbc:mysql://" + URL + ":" + PORT + "/"
-	                		+ DATABASE_NAME + ZERO_DATE_HANDLER,
+	                		+ database + ZERO_DATE_HANDLER,
 	                		username, password);
 	    } catch (SQLException e) {
 	        System.err.println("Connection Failed!:\n" + e.getMessage());

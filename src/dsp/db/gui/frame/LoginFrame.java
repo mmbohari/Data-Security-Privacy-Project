@@ -48,6 +48,7 @@ public class LoginFrame extends JFrame {
 	 * Create the dialog.
 	 */
 	public LoginFrame() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

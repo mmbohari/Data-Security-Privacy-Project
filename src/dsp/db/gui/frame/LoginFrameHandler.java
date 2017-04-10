@@ -12,6 +12,8 @@ import dsp.db.query.PreparedUserStatementGenerator;
 import dsp.db.setup.ConnectionController;
 
 public class LoginFrameHandler extends ComponentHandler {
+	
+	public static final String DATABASE_NAME = "Healthcare";
 
 	private LoginFrame loginFrame;
 	private ConnectionController connectionController;
@@ -39,6 +41,7 @@ public class LoginFrameHandler extends ComponentHandler {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if(connectionController.connect(
+						DATABASE_NAME,
 						loginFrame.getLoginUsernameField().getText(),
 						new String(loginFrame.getLoginPasswordField().getPassword())))
 				{
@@ -59,10 +62,12 @@ public class LoginFrameHandler extends ComponentHandler {
 						connectionController);
 				
 				try {
-					gen.createUser(loginFrame.getRegUsernameField().getText());
+					gen.createUser();
+					gen.ifNotExists();
+					gen.username(loginFrame.getRegUsernameField().getText());
 					gen.identifiedBy(loginFrame.getRegPasswordField().getPassword());
-					gen.executeUpdate();
-					
+					int retValue = gen.executeUpdate();
+					System.out.println(retValue);
 
 					JOptionPane.showMessageDialog(
 							null,

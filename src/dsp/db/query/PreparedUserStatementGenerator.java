@@ -12,6 +12,8 @@ public class PreparedUserStatementGenerator
 	 */
 	private enum Keyword {
 		CREATE_USER,
+		IF_NOT_EXISTS,
+		USERNAME,
 		IDENTIFIED_BY
 	};
 
@@ -20,9 +22,23 @@ public class PreparedUserStatementGenerator
 		super(connectionController);
 	}
 
-	public PreparedUserStatementGenerator createUser(String username)
+	public PreparedUserStatementGenerator createUser()
 			throws DisorderlyQueryException {
-		append(Keyword.CREATE_USER, "CREATE USER '" + username + "'");
+		append(Keyword.CREATE_USER, "CREATE USER");
+		
+		return this;
+	}
+
+	public PreparedUserStatementGenerator ifNotExists()
+			throws DisorderlyQueryException {
+		append(Keyword.IF_NOT_EXISTS, "IF NOT EXISTS");
+		
+		return this;
+	}
+	
+	public PreparedUserStatementGenerator username(String username)
+			throws DisorderlyQueryException {
+		append(Keyword.USERNAME, "?", username);
 		
 		return this;
 	}
