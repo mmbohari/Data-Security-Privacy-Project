@@ -71,7 +71,9 @@ public class DevDialogHandler extends ComponentHandler {
 
 			try {
 				connectionController
-					.execute(devDialog.getQueryTextField().getText());
+					.getConnection()
+					.prepareCall(devDialog.getQueryTextField().getText())
+					.execute();
 				
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(

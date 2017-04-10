@@ -242,4 +242,12 @@ public class ConnectionController {
 			return -1;
 		}
 	}
+	
+	/**
+	 * Dev
+	 * @return
+	 */
+	public Connection getConnection() {
+		return connection;
+	}
 }
