@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import dsp.db.gui.ComponentHandler;
 import dsp.db.gui.frame.dev.DevDialog;
 import dsp.db.gui.frame.dev.DevDialogHandler;
+import dsp.db.query.DisorderlyQueryException;
+import dsp.db.query.PreparedUserStatementGenerator;
 import dsp.db.setup.ConnectionController;
 
 public class LoginFrameHandler extends ComponentHandler {
