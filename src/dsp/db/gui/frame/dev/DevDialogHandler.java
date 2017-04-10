@@ -37,7 +37,6 @@ public class DevDialogHandler extends ComponentHandler {
 	protected void initializeListeners() {
 		devDialog.getExecuteQueryButton().addActionListener(executeQueryListener);
 		devDialog.getExecuteUpdateButton().addActionListener(executeUpdateListener);
-		devDialog.getQueryTextField().addActionListener(executeQueryListener);
 	}
 
 	private ActionListener executeQueryListener = new ActionListener(){

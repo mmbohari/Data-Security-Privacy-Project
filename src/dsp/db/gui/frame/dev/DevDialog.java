@@ -12,11 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JTextArea;
 
 public class DevDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
+	private JTextArea textField;
 	private JButton executeQueryButton;
 	private JButton executeUpdateButton;
 
@@ -65,7 +66,8 @@ public class DevDialog extends JDialog {
 			gbc_scrollPane.gridy = 0;
 			contentPanel.add(scrollPane, gbc_scrollPane);
 			{
-				textField = new JTextField();
+				textField = new JTextArea();
+				textField.setRows(6);
 				scrollPane.setViewportView(textField);
 				textField.setColumns(10);
 			}
@@ -90,7 +92,7 @@ public class DevDialog extends JDialog {
 		}
 	}
 
-	public JTextField getQueryTextField() {
+	public JTextArea getQueryTextField() {
 		return textField;
 	}
 	public JButton getExecuteQueryButton() {
