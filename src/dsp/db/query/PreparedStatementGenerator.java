@@ -68,6 +68,17 @@ public abstract class PreparedStatementGenerator {
 	}
 	
 	/**
+	 * Executes a query based on the generator's compiled SQL query.
+	 * 
+	 * @return The results set controller
+	 * @throws SQLException If there is an error in the SQL query
+	 */
+	public int executeUpdate() throws SQLException {
+		return connectionController.executeUpdate(
+				preparedString, queryValues);
+	}
+	
+	/**
 	 * Appends the given string to the query.
 	 * 
 	 * This method also takes in an enum representation of the query to

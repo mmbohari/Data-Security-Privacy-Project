@@ -74,6 +74,16 @@ public class ConnectionController {
 	 * @param password The database's password
 	 */
 	public void connect(String password) {
+		connect(REMOTE_DATABASE_USERNAME, password);
+	}
+	
+	/**
+	 * Attempts to connect to the database with the given username and password.
+	 * 
+	 * @param password The user's username
+	 * @param password The user's password
+	 */
+	public void connect(String username, String password) {
 		
 	    // Attempt to instantiate the driver
 	    try {
@@ -88,7 +98,7 @@ public class ConnectionController {
 	        connection = DriverManager.
 	                getConnection("jdbc:mysql://" + URL + ":" + PORT + "/"
 	                		+ DATABASE_NAME + ZERO_DATE_HANDLER,
-	                		REMOTE_DATABASE_USERNAME, password);
+	                		username, password);
 	    } catch (SQLException e) {
 	        System.err.println("Connection Failed!:\n" + e.getMessage());
 	        JOptionPane.showMessageDialog(null,
@@ -180,6 +190,40 @@ public class ConnectionController {
 			
 			// With no connection, return an empty result set
 			return new ResultSetController();
+		}
+	}
+
+	/**
+	 * Attempts to execute a parameterized query on the server and
+	 * returns the results in a {@link ResultSetController}.
+	 * 
+	 * @param sql The parameterized query
+	 * @param queryFragments The parameters to fill
+	 * @return The results
+	 * @throws SQLException
+	 */
+	public int executeUpdate(
+			String sql, List<String> queryFragments) throws SQLException {
+		
+		// If the server is connected
+		if(isConnected) {
+			
+			// Prepare the statement
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			
+			// Set the parameters
+			int index = 1;
+			for(String query : queryFragments) {
+				stmt.setString(index++, query);
+			}
+			
+			// Return the result of the executed query
+			return stmt.executeUpdate();
+		}
+		else {
+			
+			// With no connection, return -1
+			return -1;
 		}
 	}
 }
