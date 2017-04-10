@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import dsp.db.gui.ComponentHandler;
 import dsp.db.query.DisorderlyQueryException;
+import dsp.db.query.PreparedProcedureStatementGenerator;
 import dsp.db.query.PreparedUserStatementGenerator;
 import dsp.db.setup.ConnectionController;
 
@@ -61,6 +62,8 @@ public class LoginFrameHandler extends ComponentHandler {
 				PreparedUserStatementGenerator gen = new PreparedUserStatementGenerator(
 						connectionController);
 				
+				PreparedProcedureStatementGenerator gen2 = new PreparedProcedureStatementGenerator(connectionController);
+				
 				try {
 					gen.createUser();
 					gen.ifNotExists();
@@ -68,6 +71,12 @@ public class LoginFrameHandler extends ComponentHandler {
 					gen.identifiedBy(loginFrame.getRegPasswordField().getPassword());
 					int retValue = gen.executeUpdate();
 					System.out.println(retValue);
+					
+					gen2.call("give_doctor_to_user");
+					gen2.params(loginFrame.getRegUsernameField().getText());
+					gen2.end();
+					int retValue2 = gen2.executeUpdate();
+					System.out.println(retValue2);
 
 					JOptionPane.showMessageDialog(
 							null,
