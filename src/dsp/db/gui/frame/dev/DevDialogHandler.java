@@ -70,23 +70,8 @@ public class DevDialogHandler extends ComponentHandler {
 		public void actionPerformed(ActionEvent arg0) {
 
 			try {
-				boolean isUpdated = connectionController
+				connectionController
 					.execute(devDialog.getQueryTextField().getText());
-				
-				if(isUpdated) {
-					JOptionPane.showMessageDialog(
-							devDialog,
-							"Update successful",
-							"Success",
-							JOptionPane.ERROR_MESSAGE);
-				}
-				else {
-					JOptionPane.showMessageDialog(
-							devDialog,
-							"Update failed",
-							"SQL Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
 				
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(
