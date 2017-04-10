@@ -1,25 +1,24 @@
 package dsp.db.gui.frame.dev;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class DevDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
-	private JButton btnExecute;
+	private JButton executeQueryButton;
+	private JButton executeUpdateButton;
 
 	/**
 	 * Launch the application.
@@ -44,15 +43,15 @@ public class DevDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[] {0};
-		gbl_contentPanel.rowHeights = new int[] {0};
+		gbl_contentPanel.rowHeights = new int[] {0, 0};
 		gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, 0.0};
-		gbl_contentPanel.rowWeights = new double[]{0.0};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lblQuery = new JLabel("Query:");
 			GridBagConstraints gbc_lblQuery = new GridBagConstraints();
 			gbc_lblQuery.anchor = GridBagConstraints.WEST;
-			gbc_lblQuery.insets = new Insets(0, 0, 0, 5);
+			gbc_lblQuery.insets = new Insets(0, 0, 5, 5);
 			gbc_lblQuery.gridx = 0;
 			gbc_lblQuery.gridy = 0;
 			contentPanel.add(lblQuery, gbc_lblQuery);
@@ -61,7 +60,7 @@ public class DevDialog extends JDialog {
 			JScrollPane scrollPane = new JScrollPane();
 			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 			gbc_scrollPane.fill = GridBagConstraints.BOTH;
-			gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+			gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
 			gbc_scrollPane.gridx = 1;
 			gbc_scrollPane.gridy = 0;
 			contentPanel.add(scrollPane, gbc_scrollPane);
@@ -72,19 +71,32 @@ public class DevDialog extends JDialog {
 			}
 		}
 		{
-			btnExecute = new JButton("Execute");
+			executeQueryButton = new JButton("Query");
 			GridBagConstraints gbc_btnExecute = new GridBagConstraints();
-			gbc_btnExecute.anchor = GridBagConstraints.NORTHWEST;
+			gbc_btnExecute.fill = GridBagConstraints.HORIZONTAL;
+			gbc_btnExecute.insets = new Insets(0, 0, 5, 0);
 			gbc_btnExecute.gridx = 2;
 			gbc_btnExecute.gridy = 0;
-			contentPanel.add(btnExecute, gbc_btnExecute);
+			contentPanel.add(executeQueryButton, gbc_btnExecute);
+		}
+		{
+			executeUpdateButton = new JButton("Update");
+			GridBagConstraints gbc_executeUpdateButton = new GridBagConstraints();
+			gbc_executeUpdateButton.fill = GridBagConstraints.HORIZONTAL;
+			gbc_executeUpdateButton.insets = new Insets(0, 0, 0, 5);
+			gbc_executeUpdateButton.gridx = 2;
+			gbc_executeUpdateButton.gridy = 1;
+			contentPanel.add(executeUpdateButton, gbc_executeUpdateButton);
 		}
 	}
 
 	public JTextField getQueryTextField() {
 		return textField;
 	}
-	public JButton getExecuteButton() {
-		return btnExecute;
+	public JButton getExecuteQueryButton() {
+		return executeQueryButton;
+	}
+	public JButton getExecuteUpdateButton() {
+		return executeUpdateButton;
 	}
 }

@@ -35,7 +35,8 @@ public class DevDialogHandler extends ComponentHandler {
 
 	@Override
 	protected void initializeListeners() {
-		devDialog.getExecuteButton().addActionListener(executeQueryListener);
+		devDialog.getExecuteQueryButton().addActionListener(executeQueryListener);
+		devDialog.getExecuteUpdateButton().addActionListener(executeUpdateListener);
 		devDialog.getQueryTextField().addActionListener(executeQueryListener);
 	}
 
@@ -45,16 +46,48 @@ public class DevDialogHandler extends ComponentHandler {
 		public void actionPerformed(ActionEvent arg0) {
 
 			try {
-				/*
 				ResultSetController rsc = connectionController
 					.executeQuery(devDialog.getQueryTextField().getText());
 				
 				ResultsDialog rd = new ResultsDialog();
 				new ResultsDialogHandler(rd,rsc);
 				rd.setVisible(true);
-				*/
-				boolean resultIsResultSet = 
-						connectionController.execute(devDialog.getQueryTextField().getText());
+				
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(
+						devDialog,
+						StringUtils.splitLines(e.getMessage(), 36),
+						"SQL Error",
+						JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+		}
+		
+	};
+
+	private ActionListener executeUpdateListener = new ActionListener(){
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			try {
+				boolean isUpdated = connectionController
+					.execute(devDialog.getQueryTextField().getText());
+				
+				if(isUpdated) {
+					JOptionPane.showMessageDialog(
+							devDialog,
+							"Update successful",
+							"Success",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(
+							devDialog,
+							"Update failed",
+							"SQL Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 				
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(
