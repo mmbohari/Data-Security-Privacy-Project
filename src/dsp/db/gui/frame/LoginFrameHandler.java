@@ -72,8 +72,8 @@ public class LoginFrameHandler extends ComponentHandler {
 					int retValue = gen.executeUpdate();
 					System.out.println(retValue);
 					
-					gen2.call("give_doctor_to_user");
-					gen2.params(loginFrame.getRegUsernameField().getText());
+					gen2.call("Healthcare.give_doctor_to_user");
+					gen2.params("'" + loginFrame.getRegUsernameField().getText() + "'");
 					gen2.end();
 					int retValue2 = gen2.executeUpdate();
 					System.out.println(retValue2);
