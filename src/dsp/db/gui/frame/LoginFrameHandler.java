@@ -38,15 +38,17 @@ public class LoginFrameHandler extends ComponentHandler {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				loginFrame.getLoginUsernameField().getText();
-				loginFrame.getLoginPasswordField().getPassword();
 				
-				// TODO Authentication
-				loginFrame.dispose();
-				
-				MainFrame mainFrame = new MainFrame();
-				new MainFrameHandler(mainFrame, connectionController);
-				mainFrame.setVisible(true);
+				if(connectionController.connect(
+						loginFrame.getLoginUsernameField().getText(),
+						new String(loginFrame.getLoginPasswordField().getPassword())))
+				{
+					loginFrame.dispose();
+					
+					MainFrame mainFrame = new MainFrame();
+					new MainFrameHandler(mainFrame, connectionController);
+					mainFrame.setVisible(true);
+				}
 			}
 			
 		});
