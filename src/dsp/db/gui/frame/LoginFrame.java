@@ -1,23 +1,28 @@
 package dsp.db.gui.frame;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
-public class LoginFrame extends JDialog {
+public class LoginFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4511767585977326185L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JTextField loginUsernameField;
 	private JPasswordField loginPasswordField;

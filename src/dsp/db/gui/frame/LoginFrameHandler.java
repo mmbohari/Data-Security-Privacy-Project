@@ -10,7 +10,6 @@ import dsp.db.gui.ComponentHandler;
 import dsp.db.query.DisorderlyQueryException;
 import dsp.db.query.PreparedUserStatementGenerator;
 import dsp.db.setup.ConnectionController;
-import dsp.util.StringUtils;
 
 public class LoginFrameHandler extends ComponentHandler {
 
@@ -78,19 +77,9 @@ public class LoginFrameHandler extends ComponentHandler {
 							"Bad SQL query.",
 							"Error!",
 							JOptionPane.ERROR_MESSAGE);
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				// TODO Authentication
-			}
-			
-		});
-		loginFrame.getRegisterButton().addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				loginFrame.getRegUsernameField().getText();
-				loginFrame.getRegPasswordField().getPassword();
 			}
 			
 		});
