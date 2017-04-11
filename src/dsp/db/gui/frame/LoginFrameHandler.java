@@ -81,8 +81,7 @@ public class LoginFrameHandler extends ComponentHandler {
 					JOptionPane.showMessageDialog(
 							null,
 							"User " + loginFrame.getRegUsernameField().getText()
-							+ " has been registered! Wait for the database administrator"
-							+ " to grant login access.",
+							+ " has been registered (as a doctor)!",
 							"Success!",
 							JOptionPane.INFORMATION_MESSAGE);
 				} catch (DisorderlyQueryException | SQLException e) {
