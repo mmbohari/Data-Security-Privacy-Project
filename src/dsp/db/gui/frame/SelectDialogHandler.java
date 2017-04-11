@@ -40,8 +40,6 @@ public class SelectDialogHandler extends ComponentHandler {
 	
 	private SelectDialog selectDialog;
 	private ConnectionController connectionController;
-	
-	private String role;
 
 	public SelectDialogHandler(
 			SelectDialog selectDialog,
@@ -51,40 +49,11 @@ public class SelectDialogHandler extends ComponentHandler {
 		this.selectDialog = selectDialog;
 		this.connectionController = connectionController;
 		
-		role = "";
-		
 		initializeGUI();
 	}
 
 	@Override
 	protected void setup() {
-		
-		try {
-			ResultSetController rsc = connectionController.executeQuery("SELECT CURRENT_ROLE");
-			if(rsc.hasResults()) {
-
-				ResultSetMetaData rsmd = rsc.getResultSet().getMetaData();
-				
-				Vector<String> columnNames = new Vector<String>();
-				for (int i = 1; i <= rsmd.getColumnCount(); ++i) {
-					columnNames.add(rsmd.getColumnName(i));
-				}
-				
-			    // data of the table
-			    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-			    while (rsc.getResultSet().next()) {
-			        Vector<Object> vector = new Vector<Object>();
-			        for (int columnIndex = 1; columnIndex <= rsmd.getColumnCount(); columnIndex++) {
-			        	role = rsc.getResultSet().getObject(columnIndex).toString();
-			            vector.add(rsc.getResultSet().getObject(columnIndex));
-			        }
-			        data.add(vector);
-			    }
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		addListenerToSelectComboBox(
 				selectDialog.reinitSelectComboBoxes());
@@ -93,7 +62,7 @@ public class SelectDialogHandler extends ComponentHandler {
 				new TextItemListCellRenderer());
 
 		
-		if("doctor".equals(role)) {
+		if("doctor".equals(connectionController.getRole())) {
 			for(DBTable table : DBTables.getDoctorTables()) {
 				selectDialog.getFromComboBox().addItem(table);
 			}
@@ -178,7 +147,7 @@ public class SelectDialogHandler extends ComponentHandler {
 			comboBox.removeAllItems();
 			DBTable selectedTable;
 
-			if("doctor".equals(role)) {
+			if("doctor".equals(connectionController.getRole())) {
 				selectedTable = DBTables.getTablesAsMap().get(
 						selectDialog.getFromComboBox().getSelectedItem());
 			}

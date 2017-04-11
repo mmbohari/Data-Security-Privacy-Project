@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import dsp.db.gui.ComponentHandler;
 import dsp.db.query.ResultSetController;
 import dsp.db.setup.ConnectionController;
@@ -45,12 +47,23 @@ public class MainFrameHandler extends ComponentHandler {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					ResultSetController rsc = connectionController
-						.executeQuery("show tables");
 					
-					ResultsDialog rd = new ResultsDialog();
-					new ResultsDialogHandler(rd,rsc);
-					rd.setVisible(true);
+					if("doctor".equals(connectionController.getRole())) {
+						// Show an error message
+						JOptionPane.showMessageDialog(
+								null,
+								"You are not allowed to show all tables as a doctor.",
+								"Unauthorized access.",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					else {
+						ResultSetController rsc = connectionController
+							.executeQuery("show tables");
+							
+						ResultsDialog rd = new ResultsDialog();
+						new ResultsDialogHandler(rd,rsc);
+						rd.setVisible(true);
+					}
 					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block

@@ -3,8 +3,10 @@ package dsp.db.setup;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
@@ -61,12 +63,16 @@ public class ConnectionController {
 	 */
 	private boolean isConnected;
 	
+	private String role;
+	
 	/**
 	 * Creates a new {@link ConnectionController}.
 	 */
 	public ConnectionController() {
 		connection = null;
 		isConnected = false;
+		
+		role = "";
 	}
 	
 	/**
@@ -126,6 +132,34 @@ public class ConnectionController {
 	    	
 	    	// Reflect it in the boolean
 	        isConnected = true;
+	        
+	        // Set the role
+			try {
+				ResultSetController rsc = executeQuery("SELECT CURRENT_ROLE");
+				if(rsc.hasResults()) {
+
+					ResultSetMetaData rsmd = rsc.getResultSet().getMetaData();
+					
+					Vector<String> columnNames = new Vector<String>();
+					for (int i = 1; i <= rsmd.getColumnCount(); ++i) {
+						columnNames.add(rsmd.getColumnName(i));
+					}
+					
+				    // data of the table
+				    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+				    while (rsc.getResultSet().next()) {
+				        Vector<Object> vector = new Vector<Object>();
+				        for (int columnIndex = 1; columnIndex <= rsmd.getColumnCount(); columnIndex++) {
+				        	role = rsc.getResultSet().getObject(columnIndex).toString();
+				            vector.add(rsc.getResultSet().getObject(columnIndex));
+				        }
+				        data.add(vector);
+				    }
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
 	    
 	    return isConnected;
@@ -241,5 +275,9 @@ public class ConnectionController {
 			// With no connection, return -1
 			return -1;
 		}
+	}
+	
+	public String getRole() {
+		return role;
 	}
 }
