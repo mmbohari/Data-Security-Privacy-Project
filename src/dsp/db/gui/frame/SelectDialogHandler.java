@@ -4,11 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import dsp.db.gui.ComponentHandler;
 import dsp.db.gui.actions.CancelDialogAction;
@@ -36,6 +40,8 @@ public class SelectDialogHandler extends ComponentHandler {
 	
 	private SelectDialog selectDialog;
 	private ConnectionController connectionController;
+	
+	private String role;
 
 	public SelectDialogHandler(
 			SelectDialog selectDialog,
@@ -45,20 +51,57 @@ public class SelectDialogHandler extends ComponentHandler {
 		this.selectDialog = selectDialog;
 		this.connectionController = connectionController;
 		
+		role = "";
+		
 		initializeGUI();
 	}
 
 	@Override
 	protected void setup() {
+		
+		try {
+			ResultSetController rsc = connectionController.executeQuery("SELECT CURRENT_ROLE");
+			if(rsc.hasResults()) {
+
+				ResultSetMetaData rsmd = rsc.getResultSet().getMetaData();
+				
+				Vector<String> columnNames = new Vector<String>();
+				for (int i = 1; i <= rsmd.getColumnCount(); ++i) {
+					columnNames.add(rsmd.getColumnName(i));
+				}
+				
+			    // data of the table
+			    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+			    while (rsc.getResultSet().next()) {
+			        Vector<Object> vector = new Vector<Object>();
+			        for (int columnIndex = 1; columnIndex <= rsmd.getColumnCount(); columnIndex++) {
+			        	role = rsc.getResultSet().getObject(columnIndex).toString();
+			            vector.add(rsc.getResultSet().getObject(columnIndex));
+			        }
+			        data.add(vector);
+			    }
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		addListenerToSelectComboBox(
 				selectDialog.reinitSelectComboBoxes());
 		
 		selectDialog.getFromComboBox().setRenderer(
 				new TextItemListCellRenderer());
+
 		
-		for(DBTable table : DBTables.getTables()) {
-			selectDialog.getFromComboBox().addItem(table);
+		if("doctor".equals(role)) {
+			for(DBTable table : DBTables.getDoctorTables()) {
+				selectDialog.getFromComboBox().addItem(table);
+			}
+		}
+		else {
+			for(DBTable table : DBTables.getTables()) {
+				selectDialog.getFromComboBox().addItem(table);
+			}
 		}
 		
 		refreshAttributes();
@@ -133,8 +176,16 @@ public class SelectDialogHandler extends ComponentHandler {
 		for(JComboBox<TextItem> comboBox :
 				selectDialog.getSelectComboBoxes()) {
 			comboBox.removeAllItems();
-			DBTable selectedTable = DBTables.getTablesAsMap().get(
-					selectDialog.getFromComboBox().getSelectedItem());
+			DBTable selectedTable;
+
+			if("doctor".equals(role)) {
+				selectedTable = DBTables.getTablesAsMap().get(
+						selectDialog.getFromComboBox().getSelectedItem());
+			}
+			else {
+				selectedTable = DBTables.getDoctorTablesAsMap().get(
+						selectDialog.getFromComboBox().getSelectedItem());
+			}
 			for(DBAttribute dba : selectedTable.getAttributes()) {
 				comboBox.addItem(dba);
 			}

@@ -67,11 +67,27 @@ public class DBTables {
 		return tables;
 	}
 	
+	public static final Collection<DBTable> getDoctorTables() {
+		Collection<DBTable> tables = new HashSet<DBTable>();
+		tables.add(DOCTOR_TABLE);
+		tables.add(HISTORY_TABLE);
+		tables.add(PATIENT_TABLE);
+		return tables;
+	}
+	
 	public static final Map<Object, DBTable> getTablesAsMap() {
 		Map<Object, DBTable> tables = new HashMap<Object, DBTable>();
 		tables.put(DOCTOR_TABLE, DOCTOR_TABLE);
 		tables.put(HISTORY_TABLE, HISTORY_TABLE);
 		tables.put(INSURANCE_POLICY_TABLE, INSURANCE_POLICY_TABLE);
+		tables.put(PATIENT_TABLE, PATIENT_TABLE);
+		return tables;
+	}
+	
+	public static final Map<Object, DBTable> getDoctorTablesAsMap() {
+		Map<Object, DBTable> tables = new HashMap<Object, DBTable>();
+		tables.put(DOCTOR_TABLE, DOCTOR_TABLE);
+		tables.put(HISTORY_TABLE, HISTORY_TABLE);
 		tables.put(PATIENT_TABLE, PATIENT_TABLE);
 		return tables;
 	}
