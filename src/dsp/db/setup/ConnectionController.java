@@ -160,6 +160,9 @@ public class ConnectionController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			catch (NullPointerException e) {
+				System.err.println("This user has no role.");
+			}
 	    }
 	    
 	    return isConnected;
