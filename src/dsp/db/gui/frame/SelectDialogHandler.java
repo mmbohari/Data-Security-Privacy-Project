@@ -4,15 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import dsp.db.gui.ComponentHandler;
 import dsp.db.gui.actions.CancelDialogAction;
