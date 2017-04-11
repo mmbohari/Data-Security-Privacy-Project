@@ -30,7 +30,7 @@ public class ModelLauncher {
 		
 		// Create the controller and connect automatically
 		connectionController = new ConnectionController();
-		connectionController.connect(new DBPasswordManager().getPassword());
+		connectionController.connect("7X5432111");
 	}
 	
 	/**
