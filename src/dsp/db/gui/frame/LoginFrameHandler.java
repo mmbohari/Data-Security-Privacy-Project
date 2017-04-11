@@ -45,9 +45,6 @@ public class LoginFrameHandler extends ComponentHandler {
 				loginFrame.getLoginUsernameField().getText();
 				loginFrame.getLoginPasswordField().getPassword();
 				
-				// TODO Authentication
-				loginFrame.dispose();
-				
 				if(connectionController.connect(
 						DATABASE_NAME,
 						loginFrame.getLoginUsernameField().getText(),
@@ -109,6 +106,10 @@ public class LoginFrameHandler extends ComponentHandler {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				connectionController.connect(
+						DATABASE_NAME,
+						"dsap_group3",
+						"dsap-34U-6yn-T4R");
 				DevDialog devDialog = new DevDialog();
 				new DevDialogHandler(devDialog, connectionController);
 				devDialog.setVisible(true);
