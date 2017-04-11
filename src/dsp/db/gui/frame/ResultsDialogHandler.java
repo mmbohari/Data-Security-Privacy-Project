@@ -18,6 +18,8 @@ import dsp.db.query.ResultSetController;
  * TODO comment.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class ResultsDialogHandler extends ComponentHandler {
 	

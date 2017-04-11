@@ -7,6 +7,8 @@ import dsp.db.setup.GUILauncher;
  * Main method for GUI only.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class MainGUIOnly {
 	

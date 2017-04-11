@@ -10,6 +10,8 @@ import dsp.db.attributes.datatypes.parameters.Parameter;
  * Use {@link Object#toString()} to get this object's representation.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public abstract class DataTypeWithParams extends DBDataType {
 

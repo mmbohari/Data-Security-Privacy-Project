@@ -12,6 +12,8 @@ import dsp.db.setup.ConnectionController;
  * {@link PreparedStatementGenerator#executeQuery()} should be called.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public abstract class PreparedStatementGenerator {
 	

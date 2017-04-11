@@ -6,6 +6,8 @@ package dsp.db.attributes.datatypes.parameters;
  * Use {@link Object#toString()} to get this object's representation.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class Scale extends Parameter {
 	

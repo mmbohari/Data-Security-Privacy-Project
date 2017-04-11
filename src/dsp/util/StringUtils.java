@@ -5,6 +5,8 @@ package dsp.util;
  * for {@link String} objects.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class StringUtils {
 	

@@ -12,6 +12,13 @@ import dsp.db.query.PreparedProcedureStatementGenerator;
 import dsp.db.query.PreparedUserStatementGenerator;
 import dsp.db.setup.ConnectionController;
 
+/**
+ * A {@link LoginFrameHandler}.
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public class LoginFrameHandler extends ComponentHandler {
 	
 	public static final String DATABASE_NAME = "Healthcare";

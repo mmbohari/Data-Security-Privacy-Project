@@ -27,6 +27,8 @@ import dsp.db.gui.text.TextItemListCellRenderer;
  * TODO comment.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class SelectDialog extends JDialog {
 	private static final long serialVersionUID = -4028408695149958085L;

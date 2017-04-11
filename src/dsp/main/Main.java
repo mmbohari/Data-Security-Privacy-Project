@@ -7,6 +7,8 @@ import dsp.db.setup.ModelLauncher;
  * Main method for model and GUI.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class Main {
 	

@@ -15,6 +15,8 @@ import javax.swing.border.EmptyBorder;
  * TODO comment.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 4555982033551373931L;

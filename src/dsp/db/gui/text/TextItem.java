@@ -1,5 +1,12 @@
 package dsp.db.gui.text;
 
+/**
+ * A {@link TextItem}
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public class TextItem {
 	private final String name;
 	private final String displayText;

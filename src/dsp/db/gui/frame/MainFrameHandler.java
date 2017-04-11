@@ -16,6 +16,8 @@ import dsp.db.setup.ConnectionController;
  * TODO comment.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class MainFrameHandler extends ComponentHandler {
 	

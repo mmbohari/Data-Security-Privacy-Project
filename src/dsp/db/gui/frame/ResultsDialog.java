@@ -16,6 +16,8 @@ import javax.swing.JTable;
  * TODO comment.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class ResultsDialog extends JDialog {
 	private static final long serialVersionUID = 725393573617079589L;

@@ -8,6 +8,8 @@ import dsp.db.attributes.datatypes.generic.DBDataType;
  * Use {@link Object#toString()} to get this object's representation.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class DBAttribute {
 	

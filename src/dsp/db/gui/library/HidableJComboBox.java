@@ -5,6 +5,15 @@ import java.util.Map;
 
 import javax.swing.JComboBox;
 
+/**
+ * A {@link HidableJComboBox}
+ * 
+ * @param <E>
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public class HidableJComboBox<E> extends JComboBox<E> {
 	/**
 	 * 

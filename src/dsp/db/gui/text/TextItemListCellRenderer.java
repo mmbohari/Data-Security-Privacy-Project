@@ -7,6 +7,13 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+/**
+ * A {@link TextItemListCellRenderer}
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public class TextItemListCellRenderer
 		extends JLabel
 		implements ListCellRenderer<TextItem> {

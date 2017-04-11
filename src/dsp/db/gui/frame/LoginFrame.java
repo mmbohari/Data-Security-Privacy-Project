@@ -16,6 +16,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * A {@link LoginFrame}.
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public class LoginFrame extends JFrame {
 
 	/**

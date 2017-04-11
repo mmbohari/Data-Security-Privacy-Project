@@ -5,6 +5,8 @@ package dsp.db.attributes.datatypes;
  * for database tables.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class DBDataTypes {
 	// TODO Create list of data types here

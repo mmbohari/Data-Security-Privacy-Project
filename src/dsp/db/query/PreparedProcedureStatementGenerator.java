@@ -3,6 +3,13 @@ package dsp.db.query;
 import dsp.db.setup.ConnectionController;
 import dsp.util.StringUtils;
 
+/**
+ * A {@link PreparedProcedureStatementGenerator}
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public class PreparedProcedureStatementGenerator
 		extends PreparedStatementGenerator {
 
@@ -10,6 +17,8 @@ public class PreparedProcedureStatementGenerator
 	 * Ordered enum of query keywords for this generator.
 	 * 
 	 * @author Ryan Conrad
+	 * @author Imran Iqubal Bohari
+	 * @author Fynn Dallmeier
 	 */
 	private enum Keyword {
 		CALL,

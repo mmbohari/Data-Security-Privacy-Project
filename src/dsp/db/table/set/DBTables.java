@@ -7,6 +7,13 @@ import java.util.Map;
 
 import dsp.db.table.DBTable;
 
+/**
+ * A {@link DBTables}
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public class DBTables {
 	
 	private static final DBTable DOCTOR_TABLE

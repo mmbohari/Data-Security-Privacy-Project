@@ -8,6 +8,8 @@ import javax.swing.UnsupportedLookAndFeelException;
  * initializing the look and feel.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class LookAndFeelController {
 	

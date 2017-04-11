@@ -11,6 +11,8 @@ import javax.swing.JDialog;
  * be invisible.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class CancelDialogAction extends AbstractAction {
 	

@@ -7,6 +7,8 @@ package dsp.db.attributes.datatypes.generic;
  * Use {@link Object#toString()} to get this object's representation.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public abstract class DBDataType {
 	

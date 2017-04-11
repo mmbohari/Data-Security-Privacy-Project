@@ -10,6 +10,8 @@ import javax.swing.Action;
  * in order.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class MultiAction extends AbstractAction {
 	

@@ -18,6 +18,8 @@ import dsp.util.SQLErrorCodeMap;
  * a sql server.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class ConnectionController {
 	

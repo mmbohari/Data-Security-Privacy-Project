@@ -3,6 +3,13 @@ package dsp.util;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A {@link SQLErrorCodeMap}
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public final class SQLErrorCodeMap {
 	public static final Map<Integer, String> ERROR_CODE_STRINGS =
 		new HashMap<Integer, String>() {

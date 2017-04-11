@@ -10,6 +10,8 @@ import dsp.util.StringUtils;
  * queries for SQL.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class PreparedInsertStatementGenerator
 		extends PreparedStatementGenerator {

@@ -8,6 +8,8 @@ import dsp.util.StringUtils;
  * for SQL.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class PreparedSelectStatementGenerator
 		extends PreparedStatementGenerator {
@@ -16,6 +18,8 @@ public class PreparedSelectStatementGenerator
 	 * Ordered enum of query keywords for this generator.
 	 * 
 	 * @author Ryan Conrad
+	 * @author Imran Iqubal Bohari
+	 * @author Fynn Dallmeier
 	 */
 	private enum Keyword {
 		SELECT,

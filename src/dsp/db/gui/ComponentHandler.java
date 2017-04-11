@@ -8,6 +8,8 @@ import java.awt.Component;
  * TODO comment
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public abstract class ComponentHandler {
 	private Component component;

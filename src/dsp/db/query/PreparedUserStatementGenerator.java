@@ -2,6 +2,13 @@ package dsp.db.query;
 
 import dsp.db.setup.ConnectionController;
 
+/**
+ * A {@link PreparedUserStatementGenerator}
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public class PreparedUserStatementGenerator
 		extends PreparedStatementGenerator {
 	
@@ -9,6 +16,8 @@ public class PreparedUserStatementGenerator
 	 * Ordered enum of query keywords for this generator.
 	 * 
 	 * @author Ryan Conrad
+	 * @author Imran Iqubal Bohari
+	 * @author Fynn Dallmeier
 	 */
 	private enum Keyword {
 		CREATE_USER,

@@ -8,6 +8,8 @@ import java.sql.ResultSet;
  * results or not.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class ResultSetController {
 	

@@ -10,6 +10,8 @@ import dsp.db.gui.frame.MainFrameHandler;
  * initializes a {@link MainFrame} and its {@link MainFrameHandler}.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class GUILauncher {
 	

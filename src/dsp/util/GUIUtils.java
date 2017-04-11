@@ -7,6 +7,13 @@ import javax.swing.JComboBox;
 
 import dsp.db.gui.library.HidableJComboBox;
 
+/**
+ * A {@link GUIUtils}
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public class GUIUtils {
 	
 	@SuppressWarnings("unchecked")

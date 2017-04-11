@@ -5,6 +5,13 @@ import java.util.Collection;
 
 import dsp.db.gui.text.TextItem;
 
+/**
+ * A {@link DBTable}
+ * 
+ * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
+ */
 public class DBTable extends TextItem {
 	
 	private Collection<DBAttribute> attributes;

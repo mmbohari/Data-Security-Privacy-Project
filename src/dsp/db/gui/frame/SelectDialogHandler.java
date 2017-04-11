@@ -35,6 +35,8 @@ import dsp.util.StringUtils;
  * TODO comment.
  * 
  * @author Ryan Conrad
+ * @author Imran Iqubal Bohari
+ * @author Fynn Dallmeier
  */
 public class SelectDialogHandler extends ComponentHandler {
 	
