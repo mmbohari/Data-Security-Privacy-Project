@@ -148,11 +148,11 @@ public class SelectDialogHandler extends ComponentHandler {
 			DBTable selectedTable;
 
 			if("doctor".equals(connectionController.getRole())) {
-				selectedTable = DBTables.getTablesAsMap().get(
+				selectedTable = DBTables.getDoctorTablesAsMap().get(
 						selectDialog.getFromComboBox().getSelectedItem());
 			}
 			else {
-				selectedTable = DBTables.getDoctorTablesAsMap().get(
+				selectedTable = DBTables.getTablesAsMap().get(
 						selectDialog.getFromComboBox().getSelectedItem());
 			}
 			for(DBAttribute dba : selectedTable.getAttributes()) {
