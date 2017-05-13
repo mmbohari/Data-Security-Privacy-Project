@@ -1,5 +1,11 @@
 package dsp.db.setup;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -38,6 +44,8 @@ public class ConnectionController {
 	public static final String URL =
 			"mariadb-healthcare.c7nndjr2fzxb.us-east-1.rds.amazonaws.com";
 	
+	public static final String URL_FILENAME = "database_url.txt";
+	
 	/**
 	 * The port number to use for the database.
 	 */
@@ -52,6 +60,8 @@ public class ConnectionController {
 	 * The username of the database on the remote.
 	 */
 	public static final String REMOTE_DATABASE_USERNAME = "loginApril102017";
+	
+	private String url;
 	
 	/**
 	 * The connection.
@@ -75,6 +85,12 @@ public class ConnectionController {
 		isConnected = false;
 		
 		role = "";
+		
+		url = getUrl();
+		
+		JOptionPane.showMessageDialog(
+				null,
+				"Will use " + url + " for connection attempts.");
 	}
 	
 	/**
@@ -116,7 +132,7 @@ public class ConnectionController {
 	    // Establish the connection
 	    try {
 	        connection = DriverManager.
-	                getConnection("jdbc:mysql://" + URL + ":" + PORT + "/"
+	                getConnection("jdbc:mysql://" + url + ":" + PORT + "/"
 	                		+ database + ZERO_DATE_HANDLER,
 	                		username, password);
 	    } catch (SQLException e) {
@@ -284,5 +300,37 @@ public class ConnectionController {
 	
 	public String getRole() {
 		return role;
+	}
+	
+	private String getUrl() {
+		try {
+			createUrlIfNotExists();
+			File f = new File(System.getProperty("user.dir")
+					+ File.separator + URL_FILENAME);
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			String str = br.readLine();
+			br.close();
+			return str;
+		} catch (IOException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					"Error with accessing " + URL_FILENAME + 
+					". Will attempt to use default AWS instance.",
+					"Error!",
+					JOptionPane.ERROR_MESSAGE);
+			return URL;
+		}
+	}
+	
+	private void createUrlIfNotExists() throws IOException {
+		File f = new File(System.getProperty("user.dir")
+				+ File.separator + URL_FILENAME);
+		if(!f.exists()) {
+			f.createNewFile();
+			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+			bw.write(URL);
+			bw.close();
+		}
 	}
 }
