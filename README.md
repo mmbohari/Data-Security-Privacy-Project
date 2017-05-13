@@ -1,26 +1,16 @@
 # Data-Security-Privacy-Project
-Developing a secure healthcare database.
-
-NOTE: THE JAR AND THE "resources" FOLDER MUST BE IN THE SAME DIRECTORY! THIS WILL NO LONGER BE NECESSARY ONCE ROLES ARE IMPLEMENTED!
+A secure healthcare database management system.
 
 HOW TO RUN (an example):
 
 1. Double-click the executable jar file Data-Security-Privacy-Project.jar in the Program directory.
 
-2. If there is an error message, then the GUI will essentially run in disconnected mode, meaning the queries won't work. If clicking the executable jar doesn't work, try the alternate steps below. Otherwise, continue to step 3.
+NOTE: This will create a "database_url.txt" file in the same directory as the jar. If the file can't be created, the default MariaDB url will be used. database_url.txt will contain a url to the desired host to connect to. You can use your username and password, combined with the MariaDB url in this text file, to connect to the database and perform extra actions (such as inserting data, provided that your user's role has permission to do so) via third-party applications.
 
-    ALTERNATE STEPS (between steps 2 and 3):
+2. If there is an error message, then the GUI will essentially run in disconnected mode, meaning the queries won't work. If the program connected successfully, continue to step 3.
 
-    a. Open up a command prompt
-	
-	b. navigate to Eclipse-Project/Data-Security-Privacy-Project
-	
-	c. Run the following command:
-	
-		java -cp "bin;lib/mysql-connector-java-5.1.41-bin.jar" dsp.main.Main
-		
-	d. If the command worked, continue to step 3. Otherwise, there may be an issue with connecting to the database or the program's ability to read the password file.
-	
+EXAMPLE USAGE:
+
 3. Click "Show tables" to show the tables.
 
 4. Click either the "X" or "OK" or Cancel to exit this dialog.
